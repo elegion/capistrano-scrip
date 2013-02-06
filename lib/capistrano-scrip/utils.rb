@@ -1,3 +1,7 @@
+def _cset(variable, *args, &block)
+  set(variable, *args, &block) unless exists?(variable)
+end
+
 def with_user(new_user, &block)
   old_user = user
   if old_user != new_user
