@@ -1,20 +1,20 @@
 Capistrano::Configuration.instance.load do
   namespace :tornado do
-    set(:python, "python") unless exists?(:python)
-    set(:tornado_local_script) { "#{templates_path}/tornading.py.erb" } unless exists?(:tornado_local_script)
-    set(:tornado_remote_script) { "/etc/init.d/#{application}.py"} unless exists?(:tornado_remote_script)
+    _cset(:python) { "python" }
+    _cset(:tornado_script_template) { "#{templates_path}/tornading.py.erb" }
+    _cset(:tornado_script_path) { "/etc/init.d/#{application}.py" }
 
     task :start do
-      run "#{python} #{tornado_remote_script} start"
+      run "#{python} #{tornado_script_path} start"
     end
     task :stop do
-      run "#{python} #{tornado_remote_script} stop"
+      run "#{python} #{tornado_script_path} stop"
     end
     task :restart do
-      run "#{python} #{tornado_remote_script} restart"
+      run "#{python} #{tornado_script_path} restart"
     end
     task :setup do
-      generate_config(tornado_local_script, tornado_remote_script)
+      generate_config(tornado_script_template, tornado_script_path)
     end
 
     after 'deploy:setup' do

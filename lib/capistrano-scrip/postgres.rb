@@ -1,31 +1,29 @@
 require 'securerandom'
 
 Capistrano::Configuration.instance.load do
-  set(:database_user) { "#{deploy_user || user}" } unless exists?(:database_user)
+  _cset(:database_user) { "#{deploy_user || user}" }
 
-  set(:database_name) { "#{application}" } unless exists?(:database_name)
+  _cset(:database_name) { "#{application}" }
   # Path to the database erb template to be parsed before uploading to remote
-  set(:database_local_config) { "#{templates_path}/database.yml.erb" } unless exists?(:database_local_config)
+  _cset(:database_config_template) { "#{templates_path}/database.yml.erb" }
 
   # Path to where your remote config will reside (I use a directory sites inside conf)
-  set(:database_remote_config) do
-    "#{shared_path}/config/database.yml"
-  end unless exists?(:database_remote_config)
+  _cset(:database_config_path) { "#{shared_path}/config/database.yml" }
 
   namespace :db do
     def upload_config
       #password_prompt_with_default :database_password, SecureRandom.urlsafe_base64
       set :database_password, SecureRandom.urlsafe_base64
 
-      run "#{sudo} -u #{deploy_user} mkdir -p #{File.dirname(database_remote_config)} && " \
-          "#{sudo} touch #{database_remote_config} && " \
-          "#{sudo} chown #{user} #{database_remote_config} && " \
-          "#{sudo} chmod 770 #{database_remote_config}"
+      run "#{sudo} -u #{deploy_user} mkdir -p #{File.dirname(database_config_path)} && " \
+          "#{sudo} touch #{database_config_path} && " \
+          "#{sudo} chown #{user} #{database_config_path} && " \
+          "#{sudo} chmod 770 #{database_config_path}"
 
-      generate_config(database_local_config, database_remote_config)
+      generate_config(database_config_template, database_config_path)
 
-      run "#{sudo} chown #{deploy_user}:#{group} #{database_remote_config} && " \
-          "#{sudo} chmod 440 #{database_remote_config}"
+      run "#{sudo} chown #{deploy_user}:#{group} #{database_config_path} && " \
+          "#{sudo} chmod 440 #{database_config_path}"
     end
 
     def create_user

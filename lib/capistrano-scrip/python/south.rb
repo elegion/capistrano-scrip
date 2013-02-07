@@ -1,6 +1,6 @@
 Capistrano::Configuration.instance.load do
   namespace :south do
-    set(:python) { "python" } unless exists?(:python)
+    _cset(:python) { "python" }
 
     task :syncdb do
       run "#{python} #{latest_release}/manage.py syncdb --noinput --migrate"

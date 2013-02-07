@@ -1,6 +1,6 @@
 Capistrano::Configuration.instance.load do
   namespace :django do
-    set(:python) { "python" } unless exists?(:python)
+    _cset(:python) { "python" }
 
     task :collectstatic do
       run "#{python} #{latest_release}/manage.py collectstatic --noinput"
@@ -23,21 +23,6 @@ Capistrano::Configuration.instance.load do
         # Disable pty, so python's getpass will read pass from stdin
         :pty => false
     end
-
-    def ask_with_default(var, default)
-      set(var) do
-        Capistrano::CLI.ui.ask "#{var} [#{default}] : "
-      end
-      set var, default if eval("#{var.to_s}.empty?")
-    end
-
-    def password_prompt_with_default(var, default)
-      set(var) do
-        Capistrano::CLI.password_prompt "#{var} [#{default}] : "
-      end
-      set var, default if eval("#{var.to_s}.empty?")
-    end
-
   end
 
   after 'deploy:update_code', 'django:collectstatic'

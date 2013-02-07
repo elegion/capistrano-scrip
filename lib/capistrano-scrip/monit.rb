@@ -4,12 +4,12 @@ Capistrano::Configuration.instance.load do
   # Our monit template to be parsed by erb
   # You may need to generate this file the first time with the generator
   # included in the gem
-  set(:monit_local_config) { File.join(templates_path, "monit.erb") } unless exists?(:monit_local_config)
+  _cset(:monit_config_template) { File.join(templates_path, "monit.erb") }
 
   # The remote location of monit's config file. Used by god to fire it up
-  set(:monit_remote_config) { "/etc/monit/conf.d/unicorn-#{application}" } unless exists?(:monit_remote_config)
+  _cset(:monit_config_path) { "/etc/monit/conf.d/unicorn-#{application}" }
 
-  set :monit_command, "monit" unless exists?(:monit_command)
+  _cset(:monit_command) { "monit" }
   # Monit
   #------------------------------------------------------------------------------
   namespace :monit do
@@ -33,10 +33,10 @@ Capistrano::Configuration.instance.load do
     desc <<-EOF
     Parses the configuration file through ERB to fetch our variables and uploads the \
     result to /etc/monit/conf.d/unicorn-\#{application} (can be configured via \
-    :monit_remote_config).
+    :monit_config_path).
     EOF
     task :setup, :roles => :app , :except => { :no_release => true } do
-      generate_config(monit_local_config, monit_remote_config)
+      generate_config(monit_config_template, monit_config_path)
     end
 
     desc <<-EOF
@@ -49,8 +49,8 @@ Capistrano::Configuration.instance.load do
         set :user, root_user
       end
 
-      run "#{sudo} touch #{monit_remote_config} && " \
-          "#{sudo} chown #{deploy_user}:#{group} #{monit_remote_config}"
+      run "#{sudo} touch #{monit_config_path} && " \
+          "#{sudo} chown #{deploy_user}:#{group} #{monit_config_path}"
 
       with_user deploy_user do
         monit.setup
