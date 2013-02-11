@@ -1,10 +1,11 @@
 Capistrano::Configuration.instance.load do
   namespace :django_fcgi do
-    _cset(:python, "python")
-    _cset(:django_fcgi_template) { "#{templates_path}/django_fcgi.sh.erb" }
-    _cset(:django_fcgi_script_path) { "/etc/init.d/#{application}.sh"}
-    _cset(:django_fcgi_socket_path) {"#{sockets_path}/django_fcgi.sock"}
-    _cset(:django_fcgi_pid_path) {"#{pids_path}/django_fcgi.pid"}
+    _cset(:app_server) { "django_fcgi" }
+    _cset(:python) { "python" }
+    _cset(:django_fcgi_template) { "django_fcgi.sh.erb" }
+    _cset(:django_fcgi_script_path) { "/etc/init.d/#{application}.sh" }
+    _cset(:django_fcgi_socket_path) { "#{shared_path}/socket/django_fcgi.sock" }
+    _cset(:django_fcgi_pid_path) { "#{shared_path}/pids/django_fcgi.pid" }
 
     task :setup_host do
       script_name = File.basename django_fcgi_script_path
@@ -32,6 +33,8 @@ Capistrano::Configuration.instance.load do
   end
 
   after 'host:setup' do
+    create_remote_dir(File.dirname(django_fcgi_socket_path)) if django_fcgi_socket_path
+
     django_fcgi.setup_host if Capistrano::CLI.ui.agree("Create fcgi-related files? [Yn]")
   end
   after 'deploy:setup' do

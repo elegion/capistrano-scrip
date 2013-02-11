@@ -5,7 +5,7 @@ Capistrano::Configuration.instance.load do
 
   _cset(:database_name) { "#{application}" }
   # Path to the database erb template to be parsed before uploading to remote
-  _cset(:database_config_template) { "#{templates_path}/database.yml.erb" }
+  _cset(:database_config_template) { "database.yml.erb" }
 
   # Path to where your remote config will reside (I use a directory sites inside conf)
   _cset(:database_config_path) {"#{shared_path}/config/database.yml" }
@@ -47,8 +47,12 @@ Capistrano::Configuration.instance.load do
         set :user, root_user
       end
 
-      upload_config
-      create_user
+      if remote_file_exists?(database_config_path)
+        logger.important "Skipping creating DB config, file already exists: #{database_config_path}"
+      else
+        upload_config
+        create_user
+      end
     end
   end
 

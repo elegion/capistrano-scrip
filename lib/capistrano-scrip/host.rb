@@ -31,19 +31,27 @@ Capistrano::Configuration.instance.load do
   end
 
   namespace :host do
-    set :root_user, "root" unless exists?(:root_user)
-    set(:user_home_path) { "/home/www/#{deploy_user || user}" } unless exists?(:user_home_path)
-    set(:ssh_public_key) { "~/.ssh/id_rsa.pub" } unless exists?(:ssh_public_key)
+    _cset(:root_user) {"root"}
+    _cset(:user_home_path) { "/home/www/#{deploy_user || user}" }
+    _cset(:ssh_public_key) { "~/.ssh/id_rsa.pub" }
 
     desc "Creates user, enables ssh authorization"
     task :create_user do
-      run "#{sudo} grep -q \"^#{deploy_user}:\" /etc/passwd || " \
-        "#{sudo} useradd #{deploy_user} -d #{user_home_path} && " \
-        "#{sudo} mkdir -p #{user_home_path} && "\
-        "#{sudo} chown #{deploy_user}:#{group} #{user_home_path}"
+      script = <<-eos
+        set -e;
+        if #{sudo} id -u #{deploy_user} >/dev/null 2>&1 ; then
+          echo "User '#{deploy_user}' already exists";
+        else
+          #{sudo} useradd #{deploy_user} -d #{user_home_path};
+          #{sudo} mkdir -p #{user_home_path};
+          #{sudo} chown #{deploy_user}:#{group} #{user_home_path};
+          echo "Created user #{deploy_user} with home #{user_home_path}";
+        fi;
+      eos
       if exists?(:rvm_ruby_string)
-        run "#{sudo} usermod -a -G rvm #{deploy_user}"
+        script << "#{sudo} usermod -a -G rvm #{deploy_user};"
       end
+      run script
     end
 
     desc "Copy your public key to server"
@@ -54,10 +62,17 @@ Capistrano::Configuration.instance.load do
       else
         key_string = ssh_public_key
       end
-      run "#{sudo :as => deploy_user} touch #{user_home_path}/.ssh/authorized_keys && " \
-        "#{sudo} grep -q -F '#{key_string}' #{user_home_path}/.ssh/authorized_keys || " \
-        "#{sudo :as => deploy_user} mkdir -p #{user_home_path}/.ssh && " \
-        "echo '#{key_string}' | #{sudo :as => deploy_user} tee -a #{user_home_path}/.ssh/authorized_keys"
+      run <<-eos
+        set -e;
+        #{sudo :as => deploy_user} mkdir -p #{user_home_path}/.ssh;
+        if #{sudo} grep -q -s -F '#{key_string}' #{user_home_path}/.ssh/authorized_keys ; then
+          echo "Key already in authorized keys.";
+        else
+          #{sudo :as => deploy_user} touch #{user_home_path}/.ssh/authorized_keys;
+          echo '#{key_string}' | #{sudo :as => deploy_user} tee -a #{user_home_path}/.ssh/authorized_keys;
+          echo "Added #{key_path} to authorized_keys of #{deploy_user}";
+        fi;
+      eos
     end
 
     desc "Creates deploy user on target system, adds him to sudoers, etc"

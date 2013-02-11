@@ -5,9 +5,10 @@ Capistrano::Configuration.instance.load do
 
   # Where your nginx lives. Usually /etc/nginx/ or /opt/nginx or /usr/local/nginx for source compiled.
   _cset(:nginx_path_prefix) { "/etc/nginx" }
+  _cset(:nginx_port) { 80 }
 
   # Path to the nginx erb template to be parsed before uploading to remote
-  _cset(:nginx_config_template) { "#{templates_path}/nginx.conf.erb" }
+  _cset(:nginx_config_template) { "nginx/nginx_#{app_server}.conf.erb" }
 
   # Path to where your remote config will reside
   _cset(:nginx_config_path) { "#{nginx_path_prefix}/sites-available/#{application}.conf" }
@@ -27,9 +28,9 @@ Capistrano::Configuration.instance.load do
       # And nginx logs dir should belong to nginx
       run "#{sudo} chown #{nginx_user}:#{nginx_group} #{nginx_log_path}"
       # Allow user to reload nginx configuration
-      sudoers_line = "\n#{deploy_user} ALL=NOPASSWD: /usr/sbin/service nginx reload\n"
+      sudoers_line = "#{deploy_user} ALL=NOPASSWD: /usr/sbin/service nginx reload\n"
       run "#{sudo} cp /etc/sudoers $TMPDIR/sudoers.tmp && " \
-          "echo '#{sudoers_line}' | #{sudo} tee -a $TMPDIR/sudoers.tmp && " \
+          "echo '\n#{sudoers_line}' | #{sudo} tee -a $TMPDIR/sudoers.tmp && " \
           "#{sudo} visudo -c -f $TMPDIR/sudoers.tmp && " \
           "#{sudo} chmod 0440 $TMPDIR/sudoers.tmp && " \
           "#{sudo} mv $TMPDIR/sudoers.tmp /etc/sudoers"
@@ -37,7 +38,7 @@ Capistrano::Configuration.instance.load do
     task :setup, :roles => :app , :except => { :no_release => true } do
       generate_config(nginx_config_template, nginx_config_path)
     end
-    
+
     desc "|DarkRecipes| Parses config file and outputs it to STDOUT (internal task)"
     task :parse, :roles => :app , :except => { :no_release => true } do
       puts parse_config(nginx_config_template)
@@ -73,7 +74,8 @@ Capistrano::Configuration.instance.load do
     nginx.setup_host #if Capistrano::CLI.ui.agree("Create nginx-related files and folders? [Yn]")
   end
   after 'deploy:setup' do
-    nginx.setup if !exists?(:deploy_user) && Capistrano::CLI.ui.agree("Create nginx configuration file? [Yn]")
+    nginx.setup
   end
+  after "deploy:create_symlink", "nginx:setup", :roles => :app
 end
 

@@ -3,19 +3,32 @@ require 'capistrano-scrip/utils'
 # Inspired by https://github.com/johnbintz/capistrano-thin
 Capistrano::Configuration.instance.load do
 
+  _cset(:app_server) { "thin" }
   _cset(:thin_command){ 'bundle exec thin' }
-  _cset(:thin_local_template) { File.join(templates_path, "thin.yml.erb") }
-  _cset(:thin_config_file) { "#{current_path}/config/thin.yml" }
+  _cset(:thin_config_template) {"thin.yml.erb" }
+  _cset(:thin_config_file) { "#{shared_path}/config/thin.yml" }
   _cset(:thin_config) { "-C #{thin_config_file}" }
 
   _cset(:thin_socket) { nil }
   _cset(:thin_port) { 3000 }
-  _cset(:thin_pid) { File.join(pids_path, "thin.pid") }
-  _cset(:thin_log) { File.join(shared_path, 'log/thin.log') }
+  _cset(:thin_pid) { "#{shared_path}/pids/thin.pid" }
+  _cset(:thin_log) { "#{shared_path}/log/thin.log" }
   _cset(:thin_max_conns) { 1024 }
   _cset(:thin_max_persistent_conns) { 512 }
 
   _cset(:thin_servers) { 4 }
+
+  def thin_socket_for_server(number)
+    thin_socket.sub(/\.sock$/, ".#{number+1}.sock")
+  end
+
+  def thin_port_for_server(number)
+    thin_port + number
+  end
+
+  def thin_pid_for_server(number)
+    thin_pid.sub(/\.pid$/, ".#{thin_socket ? number : thin_port_for_server(number)}.pid")
+  end
 
   def thin_start_cmd
     "cd #{current_path} && #{thin_command} #{thin_config} start"
@@ -54,12 +67,8 @@ Capistrano::Configuration.instance.load do
     EOF
     task :setup, :roles => :app , :except => { :no_release => true } do
       # TODO: refactor this to a more generic setup task once we have more socket tasks.
-      commands = []
-      commands << "mkdir -p #{sockets_path}"
-      commands << "chown #{user}:#{group} #{sockets_path} -R"
-      commands << "chmod +rw #{sockets_path}"
+      create_remote_dir(File.dirname(thin_socket)) if thin_socket
 
-      run commands.join(" && ")
       generate_config(thin_config_template, thin_config_file)
     end
 
@@ -86,6 +95,7 @@ Capistrano::Configuration.instance.load do
     thin.setup_host #if Capistrano::CLI.ui.agree("Create thin run script? [Yn]")
   end
   after 'deploy:setup' do
-    thin.setup if !exists?(:deploy_user) && Capistrano::CLI.ui.agree("Create thin configuration file? [Yn]")
+    thin.setup
   end
+  after "deploy:create_symlink", "thin:setup", :roles => :app
 end

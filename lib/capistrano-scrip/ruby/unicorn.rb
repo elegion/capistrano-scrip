@@ -1,6 +1,8 @@
 require 'capistrano-scrip/utils'
 
 Capistrano::Configuration.instance.load do
+  _cset(:app_server) { "unicorn" }
+
   # Number of workers (Rule of thumb is 2 per CPU)
   # Just be aware that every worker needs to cache all classes and thus eat some
   # of your RAM.
@@ -21,18 +23,18 @@ Capistrano::Configuration.instance.load do
   _cset(:unicorn_socket) { File.join(sockets_path, 'unicorn.sock') }
 
   # Defines where the unicorn pid will live.
-  _cset(:unicorn_pid) { File.join(pids_path, "unicorn.pid") }
+  _cset(:unicorn_pid) { "#{shared_path}/pids/unicorn.pid" }
 
   # Our unicorn template to be parsed by erb
   # You may need to generate this file the first time with the generator
   # included in the gem
-  _cset(:unicorn_config_template) { File.join(templates_path, "unicorn.rb.erb") }
+  _cset(:unicorn_config_template) { "unicorn.rb.erb" }
 
   # The remote location of unicorn's config file. Used by god to fire it up
   _cset(:unicorn_config_path) { "#{shared_path}/config/unicorn.rb" }
 
   # Path to template for shell script to start/stop unicorn
-  _cset(:unicorn_script_template) { File.join(templates_path, "unicorn.sh.erb") }
+  _cset(:unicorn_script_template) { "unicorn.sh.erb" }
 
   # The remote location for unicort start/stop script
   _cset(:unicorn_script_path) { "/etc/init.d/unicorn-#{application}.sh" }
@@ -74,12 +76,8 @@ Capistrano::Configuration.instance.load do
     EOF
     task :setup, :roles => :app , :except => { :no_release => true } do
       # TODO: refactor this to a more generic setup task once we have more socket tasks.
-      commands = []
-      commands << "mkdir -p #{sockets_path}"
-      commands << "chown #{user}:#{group} #{sockets_path} -R"
-      commands << "chmod +rw #{sockets_path}"
+      create_remote_dir(File.dirname(unicorn_socket)) if unicorn_socket
 
-      run commands.join(" && ")
       generate_config(unicorn_config_template,unicorn_config_path)
       generate_config(unicorn_script_template,unicorn_script_path)
     end

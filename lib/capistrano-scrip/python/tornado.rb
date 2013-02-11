@@ -1,7 +1,8 @@
 Capistrano::Configuration.instance.load do
   namespace :tornado do
+    _cset(:app_server) { "tornado" }
     _cset(:python) { "python" }
-    _cset(:tornado_script_template) { "#{templates_path}/tornading.py.erb" }
+    _cset(:tornado_script_template) { "tornading.py.erb" }
     _cset(:tornado_script_path) { "/etc/init.d/#{application}.py" }
 
     task :start do

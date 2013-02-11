@@ -4,10 +4,10 @@ Capistrano::Configuration.instance.load do
   # Our monit template to be parsed by erb
   # You may need to generate this file the first time with the generator
   # included in the gem
-  _cset(:monit_config_template) { File.join(templates_path, "monit.erb") }
+  _cset(:monit_config_template) { "monit/monit_#{app_server}.conf.erb" }
 
   # The remote location of monit's config file. Used by god to fire it up
-  _cset(:monit_config_path) { "/etc/monit/conf.d/unicorn-#{application}" }
+  _cset(:monit_config_path) { "/etc/monit/conf.d/#{application}-#{app_server}" }
 
   _cset(:monit_command) { "monit" }
   # Monit
