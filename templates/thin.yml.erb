@@ -1,0 +1,16 @@
+pid: <%= thin_pid %>
+timeout: 30
+wait: 30
+<% if thin_socket %>socket: <%= thin_socket %>
+<% else %>address: 0.0.0.0
+port: <%= thin_port %>
+<% end %>
+log: <%= thin_log %>
+max_conns: <%= thin_max_conns %>
+require: []
+
+environment: <%= rails_env %>
+max_persistent_conns: <%= thin_max_persistent_conns %>
+servers: <%= thin_servers %>
+daemonize: true
+chdir: <%= current_path %>

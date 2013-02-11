@@ -1,0 +1,50 @@
+server {
+    listen      <%= nginx_port %>;
+    server_name .<%= application_domain %>;
+    access_log  <%= nginx_log_path %>/access.log combined;
+    error_log   <%= nginx_log_path %>/error.log info;
+
+    client_max_body_size 10m;
+    expires     off;
+    add_header  X-UA-Compatible IE=edge,chrome=1;
+
+    gzip            on;
+    gzip_min_length 0;
+    gzip_types      application/json;
+    gzip_proxied    any;
+    gzip_vary       on;
+
+    location / {
+        fastcgi_pass  unix:<%= django_fcgi_socket_path %>;
+        fastcgi_param PATH_INFO $fastcgi_script_name;
+        fastcgi_param REQUEST_METHOD $request_method;
+        fastcgi_param QUERY_STRING $query_string;
+        fastcgi_param CONTENT_TYPE $content_type;
+        fastcgi_param CONTENT_LENGTH $content_length;
+        fastcgi_pass_header Authorization;
+        fastcgi_intercept_errors off;
+
+        fastcgi_param GATEWAY_INTERFACE CGI/1.1;
+        fastcgi_param SERVER_SOFTWARE nginx;
+
+        fastcgi_param REMOTE_ADDR $remote_addr;
+        fastcgi_param REMOTE_PORT $remote_port;
+        fastcgi_param SERVER_ADDR $server_addr;
+        fastcgi_param SERVER_PORT $server_port;
+        fastcgi_param SERVER_NAME $server_name;
+        fastcgi_param SERVER_PROTOCOL $server_protocol;
+    }
+
+    location /static/ {
+        gzip       off;
+        expires    max;
+        access_log off;
+        root       <%= current_path %>/ginzaapi;
+    }
+    location /uploads/ {
+        gzip       off;
+        expires    max;
+        access_log off;
+        root       <%= current_path %>/ginzaapi;
+    }
+}

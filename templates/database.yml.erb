@@ -1,0 +1,12 @@
+base: &base
+  adapter: mysql2
+  encoding: utf8
+  username: <%= database_user %>
+  password: <%= database_password %>
+  host: localhost
+production:
+  database: <%= application %>
+  <<: *base
+test:
+  database: <%= application %>_test
+  <<: *base

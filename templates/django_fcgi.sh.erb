@@ -1,0 +1,75 @@
+#!/bin/sh
+
+USER=<%= user %>
+PROJECT=<%= application %>
+DIR=<%= current_path %>
+PIDFILE=<%= django_fcgi_pid_path %>
+SOCKET=<%= django_fcgi_socket_path %>
+PYTHON=<%= python %>
+SUDO=""
+if [ `whoami` != $USER ]
+then
+    SUDO="sudo -u $USER "
+fi
+
+
+# Check if $pid (could be plural) are running
+checkpid() {
+    local i
+
+    for i in $* ; do
+        [ -d "/proc/$i" ] && return 0
+    done
+    return 1
+}
+
+check_fcgi_running() {
+    if [ -f $PIDFILE ]; then
+        if checkpid `cat -- $PIDFILE` ; then
+            echo 'fcgi already running, abort start'
+            echo "You can use \`pgrep -lf $PROJECT\` to find running instance."
+            exit 1
+        else
+            echo 'fcgi is not running, but pidfile is present... removing...'
+            $SUDO rm -f -- $PIDFILE
+        fi
+    fi
+}
+
+start() {
+    echo "Starting $PROJECT fastcgi: "
+    check_fcgi_running
+    cd $DIR && $SUDO $PYTHON manage.py runfcgi method=prefork maxrequests=100 pidfile=$PIDFILE socket=$SOCKET
+    $SUDO chmod 777 $SOCKET
+    echo "$PROJECT."
+}
+stop() {
+    echo "Stopping $PROJECT fastcgi: "
+    $SUDO kill `cat -- $PIDFILE`
+    $SUDO rm -f -- $PIDFILE
+    echo "$PROJECT."
+}
+reload() {
+    echo "Reloading $PROJECT fastcgi: "
+    $SUDO kill -SIGUSR1 `cat -- $PIDFILE`
+    echo "$PROJECT"
+}
+
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    restart)
+        stop
+        start
+        ;;
+    reload)
+        reload
+        ;;
+    *)
+        echo "Usage: $0 {start|stop|restart|reload}"
+        exit 2
+esac

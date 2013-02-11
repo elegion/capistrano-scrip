@@ -1,0 +1,13 @@
+check process fastcgi-<%= application %> with pidfile "<%= django_fcgi_pid_path %>"
+    start program = "<%= django_fcgi_remote_script %> start"
+          as uid <%= user %>
+    stop  program = "<%= django_fcgi_remote_script %> stop"
+          as uid <%= user %>
+    if failed unixsocket <%= django_fcgi_socket_path %>
+        send "\0x01\0x09\0x00\0x00\0x00\0x00\0x08\0x00\0x00\0x00\0x00\0x00\0x00\0x00\0x00\0x00"
+        expect "\0x01\0x0A"
+        timeout 5 seconds
+        then restart
+    if totalmem > 350.0 MB for 5 cycles then exec "<%= django_fcgi_remote_script %> reload" as uid <%= user %>
+    if totalmem > 350.0 MB for 7 cycles then restart
+    if 5 restarts within 5 cycles then alert

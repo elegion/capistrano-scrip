@@ -1,0 +1,79 @@
+upstream <%= application %>_app_server {
+<% if thin_socket %>
+  <% (1..thin_servers).each do |thin_server_num| %>server unix:<%= thin_socket_for_server(thin_server_num) %> fail_timeout=0;
+  <% end %>
+<% else %>
+  <% (1..thin_servers).each do |thin_server_num| %>server 127.0.0.1:<%= thin_port_for_server(thin_server_num) %>;
+  <% end %>
+<% end %>
+}
+
+# <%= application %> Server
+server {
+  listen      <%= nginx_port %>;
+  server_name .<%= application_domain %>;
+
+  keepalive_timeout 5;
+  root <%= deploy_to %>/current/public;
+  gzip on;
+  gzip_types text/plain text/xml application/xml application/xml+rss
+             text/css text/javascript application/javascript application/json;
+  log_format <%= application %>_combined '$remote_addr - $remote_user [$time_local] ($request_time sec) '
+                      '"$request" $status $body_bytes_sent '
+                      '"$http_referer" "$http_user_agent"';
+  access_log  <%= nginx_log_path %>/access.log <%= application %>_combined;
+  error_log   <%= nginx_log_path %>/error.log info;
+
+  error_page 551 =503 @maintenance;
+  location @maintenance {
+    rewrite ^(.*)$ /system/maintenance.html break;
+  }
+  set $maintenance 0;
+  if (-f $document_root/system/maintenance.html) {
+    set $maintenance 1;
+  }
+  if ($request_uri = /favicon.ico) {
+    # Browsers will try to get favicon if it's not returned with 200ok status
+    set $maintenance 0;
+  }
+  if ($maintenance) {
+    # There can be several reasons for 503 error. We custom return 551 error
+    # to ensure maintenance.html is only shown when it's really maintenance
+    return 551;
+  }
+
+  rewrite ^/(.*)/$ /$1 permanent; # Truncate trailing slashes
+  try_files $uri @rails;
+
+  expires -1;
+# TODO: enable cache for all non-static content
+# maybe expires max; in server context, and expires -1; in @rails location?
+#  location ~ \.[\w]+$ { # Files with extension, .css, .png, etc.
+#    expires max;
+#  }
+
+  location = /favicon.ico {
+    try_files $uri =204;
+    access_log off;
+    log_not_found off;
+  }
+
+  location /attachment_files {
+      root <%= deploy_to %>/current/public/system;
+      internal;
+  }
+
+  location @rails {
+    proxy_pass http://<%= application %>_app_server;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header Host $http_host;
+    proxy_redirect off;
+    proxy_intercept_errors on;
+    expires -1;
+  }
+
+  error_page 500 502 503 504 /500.html;
+  error_page 403 /403.html;
+  error_page 404 /404.html;
+}

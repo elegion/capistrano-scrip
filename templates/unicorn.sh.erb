@@ -1,0 +1,89 @@
+#!/bin/bash
+#set -e
+
+if [ `whoami` != <%= user %> ]
+then
+    echo >&2 "This script must be run by user <%= user %>. Please, use:"
+    echo >&2 "sudo -u <%= user %> $0 $@"
+    exit 1
+fi
+
+TIMEOUT=<%= unicorn_workers_timeout %>
+APP_ROOT="<%= current_path %>"
+PID="<%= unicorn_pid %>"
+ENVIRONMENT=<%= rails_env %>
+CONFIG="<%= unicorn_remote_config %>"
+CMD="bundle exec unicorn -c $CONFIG -E $ENVIRONMENT -D"
+action="$1"
+#set -u
+
+<% if rvm_ruby_string %>
+export rvm_project_rvmrc=0
+# Load RVM into a shell session *as a function*
+if [[ -s "$HOME/.rvm/scripts/rvm" ]] ; then
+  # First try to load from a user install
+  source "$HOME/.rvm/scripts/rvm"
+  rvm use <%= rvm_ruby_string %>
+elif [[ -s "/usr/local/rvm/scripts/rvm" ]] ; then
+  # Then try to load from a root install
+  source "/usr/local/rvm/scripts/rvm"
+  rvm use <%= rvm_ruby_string %>
+else
+  printf "ERROR: An RVM installation was not found.\n"
+fi
+<% end %>
+
+cd $APP_ROOT || exit 1
+old_pid="$PID.oldbin"
+
+cd $APP_ROOT || exit 1
+
+sig () {
+  test -s "$PID" && kill -$1 `cat $PID`
+}
+
+oldsig () {
+  test -s $old_pid && kill -$1 `cat $old_pid`
+}
+
+workersig () {
+  workerpid="$APP_ROOT/tmp/pids/unicorn.$2.pid"
+  test -s "$workerpid" && kill -$1 `cat $workerpid`
+}
+
+case $action in
+start)
+  sig 0 && echo >&2 "Already running" && exit 0
+  $CMD && echo "start ok" && exit 0
+  ;;
+stop)
+  sig QUIT && echo "stop ok" && exit 0
+  echo >&2 "Not running"
+  ;;
+force-stop)
+  sig TERM && echo "force-stop ok" && exit 0
+  echo >&2 "Not running"
+  ;;
+restart|reload)
+  sig HUP && echo "reloaded OK" && exit 0
+  echo >&2 "Couldn't reload, starting '$CMD' instead"
+  $CMD
+  ;;
+upgrade)
+  sig USR2 && echo Upgraded && exit 0
+  echo >&2 "Couldn't upgrade, starting '$CMD' instead"
+  $CMD
+  ;;
+kill_worker)
+  workersig QUIT $2 && exit 0
+  echo >&2 "Worker not running"
+  ;;
+
+reopen-logs)
+  sig USR1
+  ;;
+*)
+  echo >&2 "Usage: $0 <start|stop|restart|upgrade|force-stop|reopen-logs>"
+  exit 1
+  ;;
+esac
