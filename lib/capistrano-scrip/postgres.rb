@@ -33,6 +33,11 @@ Capistrano::Configuration.instance.load do
           "\" | #{sudo} -u postgres psql"
     end
 
+    desc "Parses config file and outputs it to STDOUT (internal task)"
+    task :parse_config, :roles => :app , :except => { :no_release => true } do
+      puts parse_template(database_config_template)
+    end
+
     desc "Uploads database config and creates database user"
     task :setup_host do
       unless exists?(:deploy_user)

@@ -16,7 +16,7 @@ Capistrano::Configuration.instance.load do
   # Nginx tasks are not *nix agnostic, they assume you're using Debian/Ubuntu.
   # Override them as needed.
   namespace :nginx do
-    desc "|DarkRecipes| Parses and uploads nginx configuration for this app."
+    desc "Parses and uploads nginx configuration for this app."
     task :setup_host do
       # Create (empty) site config file and allow user to modify it
       run "#{sudo} touch #{nginx_config_path}"
@@ -35,38 +35,40 @@ Capistrano::Configuration.instance.load do
           "#{sudo} chmod 0440 $TMPDIR/sudoers.tmp && " \
           "#{sudo} mv $TMPDIR/sudoers.tmp /etc/sudoers"
     end
+
+    desc "Parses and uploads nginx config file for this app."
     task :setup, :roles => :app , :except => { :no_release => true } do
       generate_config(nginx_config_template, nginx_config_path)
     end
 
-    desc "|DarkRecipes| Parses config file and outputs it to STDOUT (internal task)"
-    task :parse, :roles => :app , :except => { :no_release => true } do
-      puts parse_config(nginx_config_template)
+    desc "Parses config file and outputs it to STDOUT (internal task)"
+    task :parse_config, :roles => :app , :except => { :no_release => true } do
+      puts parse_template(nginx_config_template)
     end
     
-    desc "|DarkRecipes| Restart nginx"
+    desc "Restart nginx"
     task :restart, :roles => :app , :except => { :no_release => true } do
       run "#{sudo} service nginx restart"
     end
     
-    desc "|DarkRecipes| Reload nginx"
+    desc "Reload nginx"
     task :reload, :roles => :app , :except => { :no_release => true } do
       run "#{sudo} service nginx reload"
     end
     
-    desc "|DarkRecipes| Stop nginx"
+    desc "Stop nginx"
     task :stop, :roles => :app , :except => { :no_release => true } do
       run "#{sudo} service nginx stop"
     end
     
-    desc "|DarkRecipes| Start nginx"
+    desc "Start nginx"
     task :start, :roles => :app , :except => { :no_release => true } do
       run "#{sudo} service nginx start"
     end
 
-    desc "|DarkRecipes| Show nginx status"
+    desc "Show nginx status"
     task :status, :roles => :app , :except => { :no_release => true } do
-      run "#{sudo} service nginx status"
+      run "service nginx status"
     end
   end
 

@@ -45,23 +45,28 @@ Capistrano::Configuration.instance.load do
   # thin
   #------------------------------------------------------------------------------
   namespace :thin do
-    desc "|DarkRecipes| Starts thin directly"
+    desc "Starts thin directly"
     task :start, :roles => :app do
       run thin_start_cmd
     end
 
-    desc "|DarkRecipes| Stops thin directly"
+    desc "Stops thin directly"
     task :stop, :roles => :app do
       run thin_stop_cmd
     end
 
-    desc "||DarkRecipes|| Restarts thin directly"
+    desc "Restarts thin directly"
     task :restart, :roles => :app do
       run thin_restart_cmd
     end
 
+    desc "Parses config file and outputs it to STDOUT (internal task)"
+    task :parse_config, :roles => :app , :except => { :no_release => true } do
+      puts parse_template(thin_config_template)
+    end
+
     desc <<-EOF
-    |DarkRecipes| Parses the configuration file through ERB to fetch our variables and \
+    Parses the configuration file through ERB to fetch our variables and \
     uploads the result to \#{shared_path}/config/thin.rb (can be configured via \
     :thin_config_file), to be loaded by whoever is booting up the thin.
     EOF

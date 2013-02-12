@@ -33,6 +33,11 @@ Capistrano::Configuration.instance.load do
           "\" | #{sudo} mysql -u root"
     end
 
+    desc "Parses config file and outputs it to STDOUT (internal task)"
+    task :parse_config, :roles => :app , :except => { :no_release => true } do
+      puts parse_template(database_config_template)
+    end
+
     task :setup_host do
       unless exists?(:deploy_user)
         set :deploy_user, user

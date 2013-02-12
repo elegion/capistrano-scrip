@@ -18,6 +18,11 @@ Capistrano::Configuration.instance.load do
       generate_config(tornado_script_template, tornado_script_path)
     end
 
+    desc "Parses config file and outputs it to STDOUT (internal task)"
+    task :parse_script, :roles => :app , :except => { :no_release => true } do
+      puts parse_template(tornado_script_template)
+    end
+
     after 'deploy:setup' do
       tornado.setup if Capistrano::CLI.ui.agree("Create tornado run script? [Yn]")
     end

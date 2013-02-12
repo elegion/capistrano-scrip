@@ -30,6 +30,11 @@ Capistrano::Configuration.instance.load do
     task :setup do
       generate_config(django_fcgi_template, django_fcgi_script_path)
     end
+
+    desc "Parses config file and outputs it to STDOUT (internal task)"
+    task :parse_script, :roles => :app , :except => { :no_release => true } do
+      puts parse_template(django_fcgi_template)
+    end
   end
 
   after 'host:setup' do

@@ -32,11 +32,21 @@ Capistrano::Configuration.instance.load do
 
     desc <<-EOF
     Parses the configuration file through ERB to fetch our variables and uploads the \
-    result to /etc/monit/conf.d/unicorn-\#{application} (can be configured via \
+    result to /etc/monit/conf.d/\#{application}-\#{app_server} (can be configured via \
     :monit_config_path).
     EOF
     task :setup, :roles => :app , :except => { :no_release => true } do
       generate_config(monit_config_template, monit_config_path)
+    end
+
+    desc "Parses config file and outputs it to STDOUT (internal task)"
+    task :parse_config, :roles => :app , :except => { :no_release => true } do
+      puts parse_template(database_config_template)
+    end
+
+    desc "Parses config file and outputs it to STDOUT (internal task)"
+    task :parse_config, :roles => :app , :except => { :no_release => true } do
+      puts parse_template(monit_config_template)
     end
 
     desc <<-EOF

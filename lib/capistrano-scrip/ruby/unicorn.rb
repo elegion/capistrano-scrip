@@ -54,23 +54,33 @@ Capistrano::Configuration.instance.load do
   # Unicorn
   #------------------------------------------------------------------------------
   namespace :unicorn do
-    desc "|DarkRecipes| Starts unicorn directly"
+    desc "Starts unicorn directly"
     task :start, :roles => :app do
       run unicorn_start_cmd
     end
 
-    desc "|DarkRecipes| Stops unicorn directly"
+    desc "Stops unicorn directly"
     task :stop, :roles => :app do
       run unicorn_stop_cmd
     end
 
-    desc "||DarkRecipes|| Restarts unicorn directly"
+    desc "Restarts unicorn directly"
     task :restart, :roles => :app do
       run unicorn_restart_cmd
     end
 
+    desc "Parses config file and outputs it to STDOUT (internal task)"
+    task :parse_config, :roles => :app , :except => { :no_release => true } do
+      puts parse_template(unicorn_config_template)
+    end
+
+    desc "Parses script file and outputs it to STDOUT (internal task)"
+    task :parse_script, :roles => :app , :except => { :no_release => true } do
+      puts parse_template(unicorn_script_template)
+    end
+
     desc <<-EOF
-    |DarkRecipes| Parses the configuration file through ERB to fetch our variables and \
+    Parses the configuration file through ERB to fetch our variables and \
     uploads the result to \#{shared_path}/config/unicorn.rb (can be configured via \
     :unicorn_config_path), to be loaded by whoever is booting up the unicorn.
     EOF
