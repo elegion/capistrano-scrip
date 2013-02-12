@@ -12,8 +12,7 @@ Capistrano::Configuration.instance.load do
 
   namespace :db do
     def upload_config
-      #password_prompt_with_default :database_password, SecureRandom.urlsafe_base64
-      set :database_password, SecureRandom.urlsafe_base64
+      password_prompt_with_default :database_password, SecureRandom.urlsafe_base64
 
       run "#{sudo} -u #{deploy_user} mkdir -p #{File.dirname(database_config_path)} && " \
           "#{sudo} touch #{database_config_path} && " \
@@ -26,7 +25,7 @@ Capistrano::Configuration.instance.load do
           "#{sudo} chmod 440 #{database_config_path}"
     end
 
-    def create_user
+    def create_db_user
       run "echo \"" \
           "CREATE USER #{database_user} WITH PASSWORD '#{database_password}';" \
           "CREATE DATABASE #{database_name};" \
@@ -34,13 +33,7 @@ Capistrano::Configuration.instance.load do
           "\" | #{sudo} -u postgres psql"
     end
 
-    def password_prompt_with_default(var, default)
-      set(var) do
-        Capistrano::CLI.password_prompt "#{var} [#{default}] : "
-      end
-      set var, default if eval("#{var.to_s}.empty?")
-    end
-
+    desc "Uploads database config and creates database user"
     task :setup_host do
       unless exists?(:deploy_user)
         set :deploy_user, user
@@ -51,7 +44,7 @@ Capistrano::Configuration.instance.load do
         logger.important "Skipping creating DB config, file already exists: #{database_config_path}"
       else
         upload_config
-        create_user
+        create_db_user
       end
     end
   end
