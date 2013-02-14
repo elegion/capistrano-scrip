@@ -1,0 +1,157 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Module: python::pip
+  
+    &mdash; Documentation by YARD 0.8.4.1
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '../';
+  framesUrl = "../frames.html#!" + escape(window.location.href);
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../_index.html">Index (p)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../python.html" title="python (module)">python</a></span></span>
+     &raquo; 
+    <span class="title">pip</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+      Recipes List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Recipe: python/pip</h1>
+
+  <h2>Recipe variables</h2>
+  
+    <dl class="constants">
+      
+        <dt id="pip_bin-classvariable" class="">:pip_bin =
+          <pre class="code" style="display:inline-block;"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>pip</span><span class='tstring_end'>&quot;</span></span></pre>
+          
+        </dt>
+      
+        <dt id="pip_venv_path-classvariable" class="">:pip_venv_path =
+          <pre class="code" style="display:inline-block;"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_shared_path'>shared_path</span><span class='rbrace'>}</span><span class='tstring_content'>/venv</span><span class='tstring_end'>&quot;</span></span></pre>
+          
+        </dt>
+      
+        <dt id="pip_requirements_path-classvariable" class="">:pip_requirements_path =
+          <pre class="code" style="display:inline-block;"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_latest_release'>latest_release</span><span class='rbrace'>}</span><span class='tstring_content'>/requirements.txt</span><span class='tstring_end'>&quot;</span></span></pre>
+          
+        </dt>
+      
+        <dt id="python-classvariable" class="">:python =
+          <pre class="code" style="display:inline-block;"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_pip_venv_path'>pip_venv_path</span><span class='rbrace'>}</span><span class='tstring_content'>/bin/python</span><span class='tstring_end'>&quot;</span></span></pre>
+          
+        </dt>
+      
+    </dl>
+  
+
+
+
+
+
+
+
+  
+    <h2>
+      Tasks summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    <a href="#install-class_method" title="pip:install">pip:install</a>
+  </span>
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Tasks Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="install-class_method">
+  pip:install
+
+  
+</h3>
+<table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+8
+9
+10</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'python/pip', line 8</span>
+
+<span class='id identifier rubyid_task'>task</span> <span class='symbol'>:install</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_run'>run</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_pip_bin'>pip_bin</span><span class='rbrace'>}</span><span class='tstring_content'> install -E </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_pip_venv_path'>pip_venv_path</span><span class='rbrace'>}</span><span class='tstring_content'> -sr </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_pip_requirements_path'>pip_requirements_path</span><span class='rbrace'>}</span><span class='tstring_content'> --use-mirrors --mirrors http://f.pypi.python.org</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  Generated on Thu Feb 14 11:23:25 2013 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.4.1 (ruby-1.9.3).
+</div>
+
+  </body>
+</html>

@@ -1,0 +1,236 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Module: python::django
+  
+    &mdash; Documentation by YARD 0.8.4.1
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '../';
+  framesUrl = "../frames.html#!" + escape(window.location.href);
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../_index.html">Index (d)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../python.html" title="python (module)">python</a></span></span>
+     &raquo; 
+    <span class="title">django</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+      Recipes List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Recipe: python/django</h1>
+
+  <h2>Recipe variables</h2>
+  
+    <dl class="constants">
+      
+        <dt id="python-classvariable" class="">:python =
+          <pre class="code" style="display:inline-block;"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>python</span><span class='tstring_end'>&quot;</span></span></pre>
+          
+        </dt>
+      
+    </dl>
+  
+
+
+
+
+
+
+
+  
+    <h2>
+      Tasks summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    <a href="#collectstatic-class_method" title="django:collectstatic">django:collectstatic</a>
+  </span>
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    <a href="#createsuperuser-class_method" title="django:createsuperuser">django:createsuperuser</a>
+  </span>
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    <a href="#manage-class_method" title="django:manage">django:manage</a>
+  </span>
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Tasks Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="collectstatic-class_method">
+  django:collectstatic
+
+  
+</h3>
+<table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+6
+7
+8</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'python/django', line 6</span>
+
+<span class='id identifier rubyid_task'>task</span> <span class='symbol'>:collectstatic</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_run'>run</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_python'>python</span><span class='rbrace'>}</span><span class='tstring_content'> </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_latest_release'>latest_release</span><span class='rbrace'>}</span><span class='tstring_content'>/manage.py collectstatic --noinput</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="createsuperuser-class_method">
+  django:createsuperuser
+
+  
+</h3>
+<table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+18
+19
+20
+21
+22
+23
+24
+25
+26</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'python/django', line 18</span>
+
+<span class='id identifier rubyid_task'>task</span> <span class='symbol'>:createsuperuser</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_ask_with_default'>ask_with_default</span> <span class='symbol'>:su_username</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>root</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_password_prompt_with_default'>password_prompt_with_default</span> <span class='symbol'>:su_password</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>123123</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_ask_with_default'>ask_with_default</span> <span class='symbol'>:su_email</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_su_username'>su_username</span><span class='rbrace'>}</span><span class='tstring_content'>@mailinator.com</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_run'>run</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>cd </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_latest_release'>latest_release</span><span class='rbrace'>}</span><span class='tstring_content'>; </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_python'>python</span><span class='rbrace'>}</span><span class='tstring_content'> manage.py createsuperuser</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+    <span class='symbol'>:data</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_su_username'>su_username</span><span class='rbrace'>}</span><span class='tstring_content'>\n</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_su_email'>su_email</span><span class='rbrace'>}</span><span class='tstring_content'>\n</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_su_password'>su_password</span><span class='rbrace'>}</span><span class='tstring_content'>\n</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_su_password'>su_password</span><span class='rbrace'>}</span><span class='tstring_content'>\n</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+    <span class='comment'># Disable pty, so python's getpass will read pass from stdin
+</span>    <span class='symbol'>:pty</span> <span class='op'>=&gt;</span> <span class='kw'>false</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="manage-class_method">
+  django:manage
+
+  
+</h3>
+<table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+10
+11
+12
+13
+14
+15
+16</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'python/django', line 10</span>
+
+<span class='id identifier rubyid_task'>task</span> <span class='symbol'>:manage</span> <span class='kw'>do</span>
+  <span class='kw'>if</span> <span class='const'>ENV</span><span class='period'>.</span><span class='id identifier rubyid_has_key?'>has_key?</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>command</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_run'>run</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>cd </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_latest_release'>latest_release</span><span class='rbrace'>}</span><span class='tstring_content'>; </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_python'>python</span><span class='rbrace'>}</span><span class='tstring_content'> manage.py </span><span class='embexpr_beg'>#{</span><span class='const'>ENV</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>command</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_ui'>ui</span><span class='period'>.</span><span class='id identifier rubyid_say'>say</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Please specify command to run: cap django:manage command=syncdb</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  Generated on Thu Feb 14 11:23:25 2013 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.4.1 (ruby-1.9.3).
+</div>
+
+  </body>
+</html>

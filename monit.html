@@ -1,0 +1,478 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Module: monit
+  
+    &mdash; Documentation by YARD 0.8.4.1
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!" + escape(window.location.href);
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index (m)</a> &raquo;
+    
+    
+    <span class="title">monit</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Recipes List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Recipe: monit</h1>
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>monit is a free, open source process supervision tool for Unix and Linux.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+  <h2>Recipe variables</h2>
+  
+    <dl class="constants">
+      
+        <dt id="monit_config_template-classvariable" class="">:monit_config_template =
+          <pre class="code" style="display:inline-block;"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>monit/monit_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_app_server'>app_server</span><span class='rbrace'>}</span><span class='tstring_content'>.conf.erb</span><span class='tstring_end'>&quot;</span></span></pre>
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Our monit template to be parsed by erb You may need to generate this file
+the first time with the generator included in the gem</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+      
+        <dt id="monit_config_path-classvariable" class="">:monit_config_path =
+          <pre class="code" style="display:inline-block;"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/etc/monit/conf.d/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_application'>application</span><span class='rbrace'>}</span><span class='tstring_content'>-</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_app_server'>app_server</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span></pre>
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>The remote location of monit’s config file. Used by god to fire it up</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+      
+        <dt id="monit_command-classvariable" class="">:monit_command =
+          <pre class="code" style="display:inline-block;"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>monit</span><span class='tstring_end'>&quot;</span></span></pre>
+          
+        </dt>
+      
+    </dl>
+  
+
+
+
+
+
+
+
+  
+    <h2>
+      Tasks summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    <a href="#default-class_method" title="monit:default">monit:default</a>
+  </span>
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Status summary.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    <a href="#full-class_method" title="monit:full">monit:full</a>
+  </span>
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Full status.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    <a href="#parse_config-class_method" title="monit:parse_config">monit:parse_config</a>
+  </span>
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Parses config file and outputs it to STDOUT (internal task).</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    <a href="#reload-class_method" title="monit:reload">monit:reload</a>
+  </span>
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Reloads monit.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    <a href="#setup-class_method" title="monit:setup">monit:setup</a>
+  </span>
+  
+    <span class="summary_desc"><div class='inline'>
+<p>&lt;&lt;-EOF.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    <a href="#setup_host-class_method" title="monit:setup_host">monit:setup_host</a>
+  </span>
+  
+    <span class="summary_desc"><div class='inline'>
+<p>&lt;&lt;-EOF.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Tasks Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="default-class_method">
+  monit:default
+
+  
+</h3>
+<div class="docstring">
+  <div class="discussion">
+    
+<p>Status summary</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+24
+25
+26</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'monit', line 24</span>
+
+<span class='id identifier rubyid_task'>task</span> <span class='symbol'>:default</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_run'>run</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_sudo'>sudo</span><span class='rbrace'>}</span><span class='tstring_content'> </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_monit_command'>monit_command</span><span class='rbrace'>}</span><span class='tstring_content'> summary</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="full-class_method">
+  monit:full
+
+  
+</h3>
+<div class="docstring">
+  <div class="discussion">
+    
+<p>Full status</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+29
+30
+31</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'monit', line 29</span>
+
+<span class='id identifier rubyid_task'>task</span> <span class='symbol'>:full</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_sudo'>sudo</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_monit_command'>monit_command</span><span class='rbrace'>}</span><span class='tstring_content'> status</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="parse_config-class_method">
+  monit:parse_config
+
+  
+</h3>
+<div class="docstring">
+  <div class="discussion">
+    
+<p>Parses config file and outputs it to STDOUT (internal task)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+44
+45
+46</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'monit', line 44</span>
+
+<span class='id identifier rubyid_task'>task</span> <span class='symbol'>:parse_config</span><span class='comma'>,</span> <span class='symbol'>:roles</span> <span class='op'>=&gt;</span> <span class='symbol'>:app</span> <span class='comma'>,</span> <span class='symbol'>:except</span> <span class='op'>=&gt;</span> <span class='lbrace'>{</span> <span class='symbol'>:no_release</span> <span class='op'>=&gt;</span> <span class='kw'>true</span> <span class='rbrace'>}</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_puts'>puts</span> <span class='id identifier rubyid_parse_template'>parse_template</span><span class='lparen'>(</span><span class='id identifier rubyid_database_config_template'>database_config_template</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="reload-class_method">
+  monit:reload
+
+  
+</h3>
+<div class="docstring">
+  <div class="discussion">
+    
+<p>Reloads monit</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+18
+19
+20</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'monit', line 18</span>
+
+<span class='id identifier rubyid_task'>task</span> <span class='symbol'>:reload</span><span class='comma'>,</span> <span class='symbol'>:roles</span> <span class='op'>=&gt;</span> <span class='symbol'>:app</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_run'>run</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_sudo'>sudo</span><span class='rbrace'>}</span><span class='tstring_content'> </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_monit_command'>monit_command</span><span class='rbrace'>}</span><span class='tstring_content'> reload</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="setup-class_method">
+  monit:setup
+
+  
+</h3>
+<div class="docstring">
+  <div class="discussion">
+    
+<p>&lt;&lt;-EOF</p>
+
+<pre class="code ruby"><code class="ruby">Parses the configuration file through ERB to fetch our variables and uploads the \
+result to /etc/monit/conf.d/\#{application}-\#{app_server} (can be configured via \
+:monit_config_path).
+EOF</code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+39
+40
+41</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'monit', line 39</span>
+
+<span class='id identifier rubyid_task'>task</span> <span class='symbol'>:setup</span><span class='comma'>,</span> <span class='symbol'>:roles</span> <span class='op'>=&gt;</span> <span class='symbol'>:app</span> <span class='comma'>,</span> <span class='symbol'>:except</span> <span class='op'>=&gt;</span> <span class='lbrace'>{</span> <span class='symbol'>:no_release</span> <span class='op'>=&gt;</span> <span class='kw'>true</span> <span class='rbrace'>}</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_generate_config'>generate_config</span><span class='lparen'>(</span><span class='id identifier rubyid_monit_config_template'>monit_config_template</span><span class='comma'>,</span> <span class='id identifier rubyid_monit_config_path'>monit_config_path</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="setup_host-class_method">
+  monit:setup_host
+
+  
+</h3>
+<div class="docstring">
+  <div class="discussion">
+    
+<p>&lt;&lt;-EOF</p>
+
+<pre class="code ruby"><code class="ruby">Creates empty monit configuration file for this application, allows user to
+modify it.
+EOF</code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'monit', line 57</span>
+
+<span class='id identifier rubyid_task'>task</span> <span class='symbol'>:setup_host</span> <span class='kw'>do</span>
+  <span class='kw'>unless</span> <span class='id identifier rubyid_exists?'>exists?</span><span class='lparen'>(</span><span class='symbol'>:deploy_user</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_set'>set</span> <span class='symbol'>:deploy_user</span><span class='comma'>,</span> <span class='id identifier rubyid_user'>user</span>
+    <span class='id identifier rubyid_set'>set</span> <span class='symbol'>:user</span><span class='comma'>,</span> <span class='id identifier rubyid_root_user'>root_user</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_run'>run</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_sudo'>sudo</span><span class='rbrace'>}</span><span class='tstring_content'> touch </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_monit_config_path'>monit_config_path</span><span class='rbrace'>}</span><span class='tstring_content'> &amp;&amp; </span><span class='tstring_end'>&quot;</span></span> \
+      <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_sudo'>sudo</span><span class='rbrace'>}</span><span class='tstring_content'> chown </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_deploy_user'>deploy_user</span><span class='rbrace'>}</span><span class='tstring_content'>:</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_group'>group</span><span class='rbrace'>}</span><span class='tstring_content'> </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_monit_config_path'>monit_config_path</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
+
+  <span class='id identifier rubyid_with_user'>with_user</span> <span class='id identifier rubyid_deploy_user'>deploy_user</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_monit'>monit</span><span class='period'>.</span><span class='id identifier rubyid_setup'>setup</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  Generated on Thu Feb 14 11:23:25 2013 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.4.1 (ruby-1.9.3).
+</div>
+
+  </body>
+</html>

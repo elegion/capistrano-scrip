@@ -1,0 +1,475 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Module: ruby::thin
+  
+    &mdash; Documentation by YARD 0.8.4.1
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '../';
+  framesUrl = "../frames.html#!" + escape(window.location.href);
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../_index.html">Index (t)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../ruby.html" title="ruby (module)">ruby</a></span></span>
+     &raquo; 
+    <span class="title">thin</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+      Recipes List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Recipe: ruby/thin</h1>
+
+  <h2>Recipe variables</h2>
+  
+    <dl class="constants">
+      
+        <dt id="app_server-classvariable" class="">:app_server =
+          <pre class="code" style="display:inline-block;"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>thin</span><span class='tstring_end'>&quot;</span></span></pre>
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Inspired by <a
+href="https://github.com/johnbintz/capistrano-thin">github.com/johnbintz/capistrano-thin</a></p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+      
+        <dt id="thin_command-classvariable" class="">:thin_command =
+          <pre class="code" style="display:inline-block;"><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>bundle exec thin</span><span class='tstring_end'>'</span></span></pre>
+          
+        </dt>
+      
+        <dt id="thin_config_template-classvariable" class="">:thin_config_template =
+          <pre class="code" style="display:inline-block;"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>thin.yml.erb</span><span class='tstring_end'>&quot;</span></span></pre>
+          
+        </dt>
+      
+        <dt id="thin_config_file-classvariable" class="">:thin_config_file =
+          <pre class="code" style="display:inline-block;"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_shared_path'>shared_path</span><span class='rbrace'>}</span><span class='tstring_content'>/config/thin.yml</span><span class='tstring_end'>&quot;</span></span></pre>
+          
+        </dt>
+      
+        <dt id="thin_config-classvariable" class="">:thin_config =
+          <pre class="code" style="display:inline-block;"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>-C </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_thin_config_file'>thin_config_file</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span></pre>
+          
+        </dt>
+      
+        <dt id="thin_socket-classvariable" class="">:thin_socket =
+          <pre class="code" style="display:inline-block;"><span class='kw'>nil</span></pre>
+          
+        </dt>
+      
+        <dt id="thin_port-classvariable" class="">:thin_port =
+          <pre class="code" style="display:inline-block;"><span class='int'>3000</span></pre>
+          
+        </dt>
+      
+        <dt id="thin_pid-classvariable" class="">:thin_pid =
+          <pre class="code" style="display:inline-block;"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_shared_path'>shared_path</span><span class='rbrace'>}</span><span class='tstring_content'>/pids/thin.pid</span><span class='tstring_end'>&quot;</span></span></pre>
+          
+        </dt>
+      
+        <dt id="thin_log-classvariable" class="">:thin_log =
+          <pre class="code" style="display:inline-block;"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_shared_path'>shared_path</span><span class='rbrace'>}</span><span class='tstring_content'>/log/thin.log</span><span class='tstring_end'>&quot;</span></span></pre>
+          
+        </dt>
+      
+        <dt id="thin_max_conns-classvariable" class="">:thin_max_conns =
+          <pre class="code" style="display:inline-block;"><span class='int'>1024</span></pre>
+          
+        </dt>
+      
+        <dt id="thin_max_persistent_conns-classvariable" class="">:thin_max_persistent_conns =
+          <pre class="code" style="display:inline-block;"><span class='int'>512</span></pre>
+          
+        </dt>
+      
+        <dt id="thin_servers-classvariable" class="">:thin_servers =
+          <pre class="code" style="display:inline-block;"><span class='int'>4</span></pre>
+          
+        </dt>
+      
+    </dl>
+  
+
+
+
+
+
+
+
+  
+    <h2>
+      Tasks summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    <a href="#parse_config-class_method" title="thin:parse_config">thin:parse_config</a>
+  </span>
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Parses config file and outputs it to STDOUT (internal task).</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    <a href="#restart-class_method" title="thin:restart">thin:restart</a>
+  </span>
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Restarts thin directly.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    <a href="#setup-class_method" title="thin:setup">thin:setup</a>
+  </span>
+  
+    <span class="summary_desc"><div class='inline'>
+<p>&lt;&lt;-EOF.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    <a href="#setup_host-class_method" title="thin:setup_host">thin:setup_host</a>
+  </span>
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    <a href="#start-class_method" title="thin:start">thin:start</a>
+  </span>
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Starts thin directly.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    <a href="#stop-class_method" title="thin:stop">thin:stop</a>
+  </span>
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Stops thin directly.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Tasks Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="parse_config-class_method">
+  thin:parse_config
+
+  
+</h3>
+<div class="docstring">
+  <div class="discussion">
+    
+<p>Parses config file and outputs it to STDOUT (internal task)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+64
+65
+66</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'ruby/thin', line 64</span>
+
+<span class='id identifier rubyid_task'>task</span> <span class='symbol'>:parse_config</span><span class='comma'>,</span> <span class='symbol'>:roles</span> <span class='op'>=&gt;</span> <span class='symbol'>:app</span> <span class='comma'>,</span> <span class='symbol'>:except</span> <span class='op'>=&gt;</span> <span class='lbrace'>{</span> <span class='symbol'>:no_release</span> <span class='op'>=&gt;</span> <span class='kw'>true</span> <span class='rbrace'>}</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_puts'>puts</span> <span class='id identifier rubyid_parse_template'>parse_template</span><span class='lparen'>(</span><span class='id identifier rubyid_thin_config_template'>thin_config_template</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="restart-class_method">
+  thin:restart
+
+  
+</h3>
+<div class="docstring">
+  <div class="discussion">
+    
+<p>Restarts thin directly</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+59
+60
+61</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'ruby/thin', line 59</span>
+
+<span class='id identifier rubyid_task'>task</span> <span class='symbol'>:restart</span><span class='comma'>,</span> <span class='symbol'>:roles</span> <span class='op'>=&gt;</span> <span class='symbol'>:app</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_run'>run</span> <span class='id identifier rubyid_thin_restart_cmd'>thin_restart_cmd</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="setup-class_method">
+  thin:setup
+
+  
+</h3>
+<div class="docstring">
+  <div class="discussion">
+    
+<p>&lt;&lt;-EOF</p>
+
+<pre class="code ruby"><code class="ruby">Parses the configuration file through ERB to fetch our variables and \
+uploads the result to \#{shared_path}/config/thin.rb (can be configured via \
+:thin_config_file), to be loaded by whoever is booting up the thin.
+EOF</code></pre>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+73
+74
+75
+76
+77
+78</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'ruby/thin', line 73</span>
+
+<span class='id identifier rubyid_task'>task</span> <span class='symbol'>:setup</span><span class='comma'>,</span> <span class='symbol'>:roles</span> <span class='op'>=&gt;</span> <span class='symbol'>:app</span> <span class='comma'>,</span> <span class='symbol'>:except</span> <span class='op'>=&gt;</span> <span class='lbrace'>{</span> <span class='symbol'>:no_release</span> <span class='op'>=&gt;</span> <span class='kw'>true</span> <span class='rbrace'>}</span> <span class='kw'>do</span>
+  <span class='comment'># TODO: refactor this to a more generic setup task once we have more socket tasks.
+</span>  <span class='id identifier rubyid_create_remote_dir'>create_remote_dir</span><span class='lparen'>(</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_dirname'>dirname</span><span class='lparen'>(</span><span class='id identifier rubyid_thin_socket'>thin_socket</span><span class='rparen'>)</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_thin_socket'>thin_socket</span>
+
+  <span class='id identifier rubyid_generate_config'>generate_config</span><span class='lparen'>(</span><span class='id identifier rubyid_thin_config_template'>thin_config_template</span><span class='comma'>,</span> <span class='id identifier rubyid_thin_config_file'>thin_config_file</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="setup_host-class_method">
+  thin:setup_host
+
+  
+</h3>
+<table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+80
+81
+82
+83
+84</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'ruby/thin', line 80</span>
+
+<span class='id identifier rubyid_task'>task</span> <span class='symbol'>:setup_host</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_with_user'>with_user</span> <span class='id identifier rubyid_deploy_user'>deploy_user</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_thin'>thin</span><span class='period'>.</span><span class='id identifier rubyid_setup'>setup</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="start-class_method">
+  thin:start
+
+  
+</h3>
+<div class="docstring">
+  <div class="discussion">
+    
+<p>Starts thin directly</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+49
+50
+51</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'ruby/thin', line 49</span>
+
+<span class='id identifier rubyid_task'>task</span> <span class='symbol'>:start</span><span class='comma'>,</span> <span class='symbol'>:roles</span> <span class='op'>=&gt;</span> <span class='symbol'>:app</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_run'>run</span> <span class='id identifier rubyid_thin_start_cmd'>thin_start_cmd</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="stop-class_method">
+  thin:stop
+
+  
+</h3>
+<div class="docstring">
+  <div class="discussion">
+    
+<p>Stops thin directly</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+54
+55
+56</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'ruby/thin', line 54</span>
+
+<span class='id identifier rubyid_task'>task</span> <span class='symbol'>:stop</span><span class='comma'>,</span> <span class='symbol'>:roles</span> <span class='op'>=&gt;</span> <span class='symbol'>:app</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_run'>run</span> <span class='id identifier rubyid_thin_stop_cmd'>thin_stop_cmd</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+  <div id="instance_method_details" class="method_details_list">
+</div>
+
+    <div id="footer">
+  Generated on Thu Feb 14 11:23:25 2013 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.4.1 (ruby-1.9.3).
+</div>
+
+  </body>
+</html>

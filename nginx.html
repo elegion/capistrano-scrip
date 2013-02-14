@@ -1,0 +1,599 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Module: nginx
+  
+    &mdash; Documentation by YARD 0.8.4.1
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!" + escape(window.location.href);
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index (n)</a> &raquo;
+    
+    
+    <span class="title">nginx</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Recipes List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Recipe: nginx</h1>
+
+  <h2>Recipe variables</h2>
+  
+    <dl class="constants">
+      
+        <dt id="nginx_user-classvariable" class="">:nginx_user =
+          <pre class="code" style="display:inline-block;"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>www-data</span><span class='tstring_end'>&quot;</span></span></pre>
+          
+        </dt>
+      
+        <dt id="nginx_group-classvariable" class="">:nginx_group =
+          <pre class="code" style="display:inline-block;"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>www-data</span><span class='tstring_end'>&quot;</span></span></pre>
+          
+        </dt>
+      
+        <dt id="nginx_log_path-classvariable" class="">:nginx_log_path =
+          <pre class="code" style="display:inline-block;"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_shared_path'>shared_path</span><span class='rbrace'>}</span><span class='tstring_content'>/log/nginx</span><span class='tstring_end'>&quot;</span></span></pre>
+          
+        </dt>
+      
+        <dt id="nginx_path_prefix-classvariable" class="">:nginx_path_prefix =
+          <pre class="code" style="display:inline-block;"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/etc/nginx</span><span class='tstring_end'>&quot;</span></span></pre>
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Where your nginx lives. Usually /etc/nginx/ or /opt/nginx or
+/usr/local/nginx for source compiled.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+      
+        <dt id="nginx_port-classvariable" class="">:nginx_port =
+          <pre class="code" style="display:inline-block;"><span class='int'>80</span></pre>
+          
+        </dt>
+      
+        <dt id="nginx_config_template-classvariable" class="">:nginx_config_template =
+          <pre class="code" style="display:inline-block;"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>nginx/nginx_</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_app_server'>app_server</span><span class='rbrace'>}</span><span class='tstring_content'>.conf.erb</span><span class='tstring_end'>&quot;</span></span></pre>
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Path to the nginx erb template to be parsed before uploading to remote</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+      
+        <dt id="nginx_config_path-classvariable" class="">:nginx_config_path =
+          <pre class="code" style="display:inline-block;"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_nginx_path_prefix'>nginx_path_prefix</span><span class='rbrace'>}</span><span class='tstring_content'>/sites-available/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_application'>application</span><span class='rbrace'>}</span><span class='tstring_content'>.conf</span><span class='tstring_end'>&quot;</span></span></pre>
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Path to where your remote config will reside</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+      
+    </dl>
+  
+
+
+
+
+
+
+
+  
+    <h2>
+      Tasks summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    <a href="#parse_config-class_method" title="nginx:parse_config">nginx:parse_config</a>
+  </span>
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Parses config file and outputs it to STDOUT (internal task).</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    <a href="#reload-class_method" title="nginx:reload">nginx:reload</a>
+  </span>
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Reload nginx.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    <a href="#restart-class_method" title="nginx:restart">nginx:restart</a>
+  </span>
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Restart nginx.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    <a href="#setup-class_method" title="nginx:setup">nginx:setup</a>
+  </span>
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Parses and uploads nginx config file for this app.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    <a href="#setup_host-class_method" title="nginx:setup_host">nginx:setup_host</a>
+  </span>
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Parses and uploads nginx configuration for this app.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    <a href="#start-class_method" title="nginx:start">nginx:start</a>
+  </span>
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Start nginx.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    <a href="#status-class_method" title="nginx:status">nginx:status</a>
+  </span>
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Show nginx status.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    <a href="#stop-class_method" title="nginx:stop">nginx:stop</a>
+  </span>
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Stop nginx.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Tasks Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="parse_config-class_method">
+  nginx:parse_config
+
+  
+</h3>
+<div class="docstring">
+  <div class="discussion">
+    
+<p>Parses config file and outputs it to STDOUT (internal task)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+45
+46
+47</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'nginx', line 45</span>
+
+<span class='id identifier rubyid_task'>task</span> <span class='symbol'>:parse_config</span><span class='comma'>,</span> <span class='symbol'>:roles</span> <span class='op'>=&gt;</span> <span class='symbol'>:app</span> <span class='comma'>,</span> <span class='symbol'>:except</span> <span class='op'>=&gt;</span> <span class='lbrace'>{</span> <span class='symbol'>:no_release</span> <span class='op'>=&gt;</span> <span class='kw'>true</span> <span class='rbrace'>}</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_puts'>puts</span> <span class='id identifier rubyid_parse_template'>parse_template</span><span class='lparen'>(</span><span class='id identifier rubyid_nginx_config_template'>nginx_config_template</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="reload-class_method">
+  nginx:reload
+
+  
+</h3>
+<div class="docstring">
+  <div class="discussion">
+    
+<p>Reload nginx</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+55
+56
+57</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'nginx', line 55</span>
+
+<span class='id identifier rubyid_task'>task</span> <span class='symbol'>:reload</span><span class='comma'>,</span> <span class='symbol'>:roles</span> <span class='op'>=&gt;</span> <span class='symbol'>:app</span> <span class='comma'>,</span> <span class='symbol'>:except</span> <span class='op'>=&gt;</span> <span class='lbrace'>{</span> <span class='symbol'>:no_release</span> <span class='op'>=&gt;</span> <span class='kw'>true</span> <span class='rbrace'>}</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_run'>run</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_sudo'>sudo</span><span class='rbrace'>}</span><span class='tstring_content'> service nginx reload</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="restart-class_method">
+  nginx:restart
+
+  
+</h3>
+<div class="docstring">
+  <div class="discussion">
+    
+<p>Restart nginx</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+50
+51
+52</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'nginx', line 50</span>
+
+<span class='id identifier rubyid_task'>task</span> <span class='symbol'>:restart</span><span class='comma'>,</span> <span class='symbol'>:roles</span> <span class='op'>=&gt;</span> <span class='symbol'>:app</span> <span class='comma'>,</span> <span class='symbol'>:except</span> <span class='op'>=&gt;</span> <span class='lbrace'>{</span> <span class='symbol'>:no_release</span> <span class='op'>=&gt;</span> <span class='kw'>true</span> <span class='rbrace'>}</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_run'>run</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_sudo'>sudo</span><span class='rbrace'>}</span><span class='tstring_content'> service nginx restart</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="setup-class_method">
+  nginx:setup
+
+  
+</h3>
+<div class="docstring">
+  <div class="discussion">
+    
+<p>Parses and uploads nginx config file for this app.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+40
+41
+42</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'nginx', line 40</span>
+
+<span class='id identifier rubyid_task'>task</span> <span class='symbol'>:setup</span><span class='comma'>,</span> <span class='symbol'>:roles</span> <span class='op'>=&gt;</span> <span class='symbol'>:app</span> <span class='comma'>,</span> <span class='symbol'>:except</span> <span class='op'>=&gt;</span> <span class='lbrace'>{</span> <span class='symbol'>:no_release</span> <span class='op'>=&gt;</span> <span class='kw'>true</span> <span class='rbrace'>}</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_generate_config'>generate_config</span><span class='lparen'>(</span><span class='id identifier rubyid_nginx_config_template'>nginx_config_template</span><span class='comma'>,</span> <span class='id identifier rubyid_nginx_config_path'>nginx_config_path</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="setup_host-class_method">
+  nginx:setup_host
+
+  
+</h3>
+<div class="docstring">
+  <div class="discussion">
+    
+<p>Parses and uploads nginx configuration for this app.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'nginx', line 20</span>
+
+<span class='id identifier rubyid_task'>task</span> <span class='symbol'>:setup_host</span> <span class='kw'>do</span>
+  <span class='comment'># Create (empty) site config file and allow user to modify it
+</span>  <span class='id identifier rubyid_run'>run</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_sudo'>sudo</span><span class='rbrace'>}</span><span class='tstring_content'> touch </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_nginx_config_path'>nginx_config_path</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_run'>run</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_sudo'>sudo</span><span class='rbrace'>}</span><span class='tstring_content'> chown </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_deploy_user'>deploy_user</span><span class='rbrace'>}</span><span class='tstring_content'>:</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_group'>group</span><span class='rbrace'>}</span><span class='tstring_content'> </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_nginx_config_path'>nginx_config_path</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='comment'># Create logs dir and allow nginx to write there
+</span>  <span class='id identifier rubyid_run'>run</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_sudo'>sudo</span><span class='rbrace'>}</span><span class='tstring_content'> mkdir -p </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_nginx_log_path'>nginx_log_path</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='comment'># We probably just created user home dir, so make sure it belongs to user, not root
+</span>  <span class='id identifier rubyid_run'>run</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_sudo'>sudo</span><span class='rbrace'>}</span><span class='tstring_content'> chown </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_deploy_user'>deploy_user</span><span class='rbrace'>}</span><span class='tstring_content'>:</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_group'>group</span><span class='rbrace'>}</span><span class='tstring_content'> -R </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_user_home_path'>user_home_path</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='comment'># And nginx logs dir should belong to nginx
+</span>  <span class='id identifier rubyid_run'>run</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_sudo'>sudo</span><span class='rbrace'>}</span><span class='tstring_content'> chown </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_nginx_user'>nginx_user</span><span class='rbrace'>}</span><span class='tstring_content'>:</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_nginx_group'>nginx_group</span><span class='rbrace'>}</span><span class='tstring_content'> </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_nginx_log_path'>nginx_log_path</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='comment'># Allow user to reload nginx configuration
+</span>  <span class='id identifier rubyid_sudoers_line'>sudoers_line</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_deploy_user'>deploy_user</span><span class='rbrace'>}</span><span class='tstring_content'> ALL=NOPASSWD: /usr/sbin/service nginx reload\n</span><span class='tstring_end'>&quot;</span></span>
+  <span class='id identifier rubyid_run'>run</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_sudo'>sudo</span><span class='rbrace'>}</span><span class='tstring_content'> cp /etc/sudoers $TMPDIR/sudoers.tmp &amp;&amp; </span><span class='tstring_end'>&quot;</span></span> \
+      <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>echo '\n</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_sudoers_line'>sudoers_line</span><span class='rbrace'>}</span><span class='tstring_content'>' | </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_sudo'>sudo</span><span class='rbrace'>}</span><span class='tstring_content'> tee -a $TMPDIR/sudoers.tmp &amp;&amp; </span><span class='tstring_end'>&quot;</span></span> \
+      <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_sudo'>sudo</span><span class='rbrace'>}</span><span class='tstring_content'> visudo -c -f $TMPDIR/sudoers.tmp &amp;&amp; </span><span class='tstring_end'>&quot;</span></span> \
+      <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_sudo'>sudo</span><span class='rbrace'>}</span><span class='tstring_content'> chmod 0440 $TMPDIR/sudoers.tmp &amp;&amp; </span><span class='tstring_end'>&quot;</span></span> \
+      <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_sudo'>sudo</span><span class='rbrace'>}</span><span class='tstring_content'> mv $TMPDIR/sudoers.tmp /etc/sudoers</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="start-class_method">
+  nginx:start
+
+  
+</h3>
+<div class="docstring">
+  <div class="discussion">
+    
+<p>Start nginx</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+65
+66
+67</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'nginx', line 65</span>
+
+<span class='id identifier rubyid_task'>task</span> <span class='symbol'>:start</span><span class='comma'>,</span> <span class='symbol'>:roles</span> <span class='op'>=&gt;</span> <span class='symbol'>:app</span> <span class='comma'>,</span> <span class='symbol'>:except</span> <span class='op'>=&gt;</span> <span class='lbrace'>{</span> <span class='symbol'>:no_release</span> <span class='op'>=&gt;</span> <span class='kw'>true</span> <span class='rbrace'>}</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_run'>run</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_sudo'>sudo</span><span class='rbrace'>}</span><span class='tstring_content'> service nginx start</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="status-class_method">
+  nginx:status
+
+  
+</h3>
+<div class="docstring">
+  <div class="discussion">
+    
+<p>Show nginx status</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+70
+71
+72</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'nginx', line 70</span>
+
+<span class='id identifier rubyid_task'>task</span> <span class='symbol'>:status</span><span class='comma'>,</span> <span class='symbol'>:roles</span> <span class='op'>=&gt;</span> <span class='symbol'>:app</span> <span class='comma'>,</span> <span class='symbol'>:except</span> <span class='op'>=&gt;</span> <span class='lbrace'>{</span> <span class='symbol'>:no_release</span> <span class='op'>=&gt;</span> <span class='kw'>true</span> <span class='rbrace'>}</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_run'>run</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>service nginx status</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="stop-class_method">
+  nginx:stop
+
+  
+</h3>
+<div class="docstring">
+  <div class="discussion">
+    
+<p>Stop nginx</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+60
+61
+62</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'nginx', line 60</span>
+
+<span class='id identifier rubyid_task'>task</span> <span class='symbol'>:stop</span><span class='comma'>,</span> <span class='symbol'>:roles</span> <span class='op'>=&gt;</span> <span class='symbol'>:app</span> <span class='comma'>,</span> <span class='symbol'>:except</span> <span class='op'>=&gt;</span> <span class='lbrace'>{</span> <span class='symbol'>:no_release</span> <span class='op'>=&gt;</span> <span class='kw'>true</span> <span class='rbrace'>}</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_run'>run</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_sudo'>sudo</span><span class='rbrace'>}</span><span class='tstring_content'> service nginx stop</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  Generated on Thu Feb 14 11:23:25 2013 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.4.1 (ruby-1.9.3).
+</div>
+
+  </body>
+</html>
