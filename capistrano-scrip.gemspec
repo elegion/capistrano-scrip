@@ -19,4 +19,7 @@ Gem::Specification.new do |s|
   s.extra_rdoc_files = %w(LICENSE README.rdoc)
 
   s.add_dependency "capistrano", ">= 2.5.9"
+  s.add_development_dependency "yard", "~> 0.8.4"
+  s.add_development_dependency "redcarpet", "~> 2.2.2"
+  s.add_development_dependency "rake", "~> 10.0.3"
 end

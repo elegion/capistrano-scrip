@@ -1,0 +1,13 @@
+<% if constant_listing.size > 0 || object.constants.size > 0 %>
+  <h2>Recipe variables</h2>
+  <% if constant_listing.size > 0 %>
+    <dl class="constants">
+      <% constant_listing.each do |cnst| %>
+        <dt id="<%= anchor_for(cnst) %>" class="<%= cnst.has_tag?(:deprecated) ? 'deprecated' : '' %>">:<%= cnst.name %> =
+          <pre class="code" style="display:inline-block;"><%= format_constant cnst.value %></pre>
+          <%= yieldall :object => cnst %>
+        </dt>
+      <% end %>
+    </dl>
+  <% end %>
+<% end %>

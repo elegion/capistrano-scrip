@@ -1,0 +1,10 @@
+<li class="<%= @item.visibility %> <%= @item.has_tag?(:deprecated) ? 'deprecated' : '' %>">
+  <span class="summary_signature">
+    <%= task_signature(@item, true, false, !@item.attr_info) %>
+  </span>
+  <% if @item.has_tag?(:deprecated) %>
+    <span class="summary_desc"><strong>Deprecated.</strong> <%= htmlify_line @item.tag(:deprecated).text %></span>
+  <% else %>
+    <span class="summary_desc"><%= htmlify_line docstring_summary(@item) %></span>
+  <% end %>
+</li>
