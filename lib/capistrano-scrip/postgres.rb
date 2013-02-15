@@ -3,7 +3,7 @@ require 'securerandom'
 
 Capistrano::Configuration.instance.load do
   # Postgres user name
-  _cset(:database_user) { "#{deploy_user || user}" }
+  _cset(:database_user) { "#{fetch(:deploy_user, user)}" }
   # Postgres database name
   _cset(:database_name) { "#{application}" }
   # Path to the rails database erb template to be parsed before uploading to remote server

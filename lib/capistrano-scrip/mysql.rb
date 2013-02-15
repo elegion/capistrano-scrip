@@ -3,7 +3,7 @@ require 'securerandom'
 
 Capistrano::Configuration.instance.load do
   # Mysql user name
-  _cset(:database_user) { "#{deploy_user || user}" }
+  _cset(:database_user) { "#{fetch(:deploy_user, user)}" }
   # Arguments to be passed to mysql (for example -p "yourpassword")
   _cset(:mysql_arguments) { "" }
   # Mysql database name

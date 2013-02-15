@@ -11,7 +11,7 @@ Capistrano::Configuration.instance.load do
     _cset(:root_user) {"root"}
     # Home path for deployer
     # (used in host:create_user task)
-    _cset(:user_home_path) { "/home/www/#{deploy_user || user}" }
+    _cset(:user_home_path) { "/home/www/#{fetch(:deploy_user, user)}" }
     # Path to public key (or public key itself as string)
     _cset(:ssh_public_key) { "~/.ssh/id_rsa.pub" }
 
