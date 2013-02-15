@@ -14,8 +14,6 @@ Capistrano::Configuration.instance.load do
 
   namespace :db do
     def upload_config
-      password_prompt_with_default :database_password, SecureRandom.urlsafe_base64
-
       run "#{sudo} -u #{deploy_user} mkdir -p #{File.dirname(database_config_path)} && " \
           "#{sudo} touch #{database_config_path} && " \
           "#{sudo} chown #{user} #{database_config_path} && " \
@@ -48,8 +46,9 @@ Capistrano::Configuration.instance.load do
       if remote_file_exists?(database_config_path)
         logger.important "Skipping creating DB config, file already exists: #{database_config_path}"
       else
-        upload_config
+        password_prompt_with_default :database_password, SecureRandom.urlsafe_base64
         create_db_user
+        upload_config
       end
     end
   end

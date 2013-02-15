@@ -4,6 +4,8 @@ require 'securerandom'
 Capistrano::Configuration.instance.load do
   # Mysql user name
   _cset(:database_user) { "#{deploy_user || user}" }
+  # Arguments to be passed to mysql (for example -p "yourpassword")
+  _cset(:mysql_arguments) { "" }
   # Mysql database name
   _cset(:database_name) { "#{application}" }
   # Path to the rails database erb template to be parsed before uploading to remote server
@@ -14,8 +16,6 @@ Capistrano::Configuration.instance.load do
 
   namespace :db do
     def upload_config
-      password_prompt_with_default :database_password, SecureRandom.urlsafe_base64
-
       run "#{sudo} -u #{deploy_user} mkdir -p #{File.dirname(database_config_path)} && " \
           "#{sudo} touch #{database_config_path} && " \
           "#{sudo} chown #{user} #{database_config_path} && " \
@@ -32,7 +32,12 @@ Capistrano::Configuration.instance.load do
           "CREATE USER \\`#{database_user}\\`@\\`localhost\\` IDENTIFIED BY '#{database_password}';" \
           "CREATE DATABASE \\`#{database_name}\\`;" \
           "GRANT ALL PRIVILEGES ON \\`#{database_name}\\`.* TO \\`#{database_user}\\`;" \
-          "\" | #{sudo} mysql -u root"
+          "\" | #{sudo} mysql -u root #{mysql_arguments}" do |channel, stream, data|
+        if data =~ /^Enter password:/
+          pass = Capistrano::CLI.password_prompt "Enter database password for 'root':"
+          channel.send_data "#{pass}\n"
+        end
+      end
     end
 
     desc "Parses config file and outputs it to STDOUT (internal task)"
@@ -48,8 +53,9 @@ Capistrano::Configuration.instance.load do
       if remote_file_exists?(database_config_path)
         logger.important "Skipping creating DB config, file already exists: #{database_config_path}"
       else
-        upload_config
+        password_prompt_with_default :database_password, SecureRandom.urlsafe_base64
         create_db_user
+        upload_config
       end
     end
   end
