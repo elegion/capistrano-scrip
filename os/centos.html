@@ -4,26 +4,26 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>
-  Module: ruby
+  Module: os::centos
   
     &mdash; Capistrano-scrip documentation
   
 </title>
 
-  <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+  <link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
 
-  <link rel="stylesheet" href="css/common.css" type="text/css" media="screen" charset="utf-8" />
+  <link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
   hasFrames = window.top.frames.main ? true : false;
-  relpath = '';
-  framesUrl = "frames.html#!" + escape(window.location.href);
+  relpath = '../';
+  framesUrl = "../frames.html#!" + escape(window.location.href);
 </script>
 
 
-  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
 
-  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
 
 
   </head>
@@ -31,10 +31,10 @@
     <div id="header">
       <div id="menu">
   
-    <a href="_index.html">Index (r)</a> &raquo;
-    
-    
-    <span class="title">ruby</span>
+    <a href="../_index.html">Index (c)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../os.html" title="os (module)">os</a></span></span>
+     &raquo; 
+    <span class="title">centos</span>
   
 
   <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
@@ -43,7 +43,7 @@
       <div id="search">
   
     <a class="full_list_link" id="class_list_link"
-        href="class_list.html">
+        href="../class_list.html">
       Recipes List
     </a>
   
@@ -53,16 +53,14 @@
 
     <iframe id="search_frame"></iframe>
 
-    <div id="content"><h1>Recipe: ruby</h1>
+    <div id="content"><h1>Recipe: os/centos</h1>
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     
-<p>Use unicorn as application server (inspired by <a
-href="https://github.com/webficient/capistrano-recipes">github.com/webficient/capistrano-recipes</a>)</p>
+<p>System tasks (users/permissions management)</p>
 
-<p>Unicorn is an HTTP server for Rack applications designed to only serve fast
-clients on low-latency, high-bandwidth connections and take advantage of
-features in Unix/Unix-like kernels.</p>
+<p>Main task is <tt>host:setup</tt> which will prepare servers for deploy - create
+config files and directories required for deploy.</p>
 
 
   </div>

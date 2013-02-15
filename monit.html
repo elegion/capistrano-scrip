@@ -6,7 +6,7 @@
 <title>
   Module: monit
   
-    &mdash; Documentation by YARD 0.8.4.1
+    &mdash; Capistrano-scrip documentation
   
 </title>
 
@@ -75,8 +75,7 @@
           <div class="docstring">
   <div class="discussion">
     
-<p>Our monit template to be parsed by erb You may need to generate this file
-the first time with the generator included in the gem</p>
+<p>Path to monit configuration template</p>
 
 
   </div>
@@ -92,7 +91,7 @@ the first time with the generator included in the gem</p>
           <div class="docstring">
   <div class="discussion">
     
-<p>The remote location of monit’s config file. Used by god to fire it up</p>
+<p>The remote location of monit’s config file</p>
 
 
   </div>
@@ -105,7 +104,18 @@ the first time with the generator included in the gem</p>
       
         <dt id="monit_command-classvariable" class="">:monit_command =
           <pre class="code" style="display:inline-block;"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>monit</span><span class='tstring_end'>&quot;</span></span></pre>
-          
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Path to monit binary on server</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
         </dt>
       
     </dl>
@@ -179,7 +189,8 @@ the first time with the generator included in the gem</p>
   </span>
   
     <span class="summary_desc"><div class='inline'>
-<p>&lt;&lt;-EOF.</p>
+<p>Parses the configuration template file :<span class='object_link'><a href="#monit_config_template-classvariable" title="monit::monit_config_template (classvariable)">monit_config_template</a></span> through ERB
+to fetch our variables and uploads the result to :<span class='object_link'><a href="#monit_config_path-classvariable" title="monit::monit_config_path (classvariable)">monit_config_path</a></span>.</p>
 </div></span>
   
 </li>
@@ -191,7 +202,8 @@ the first time with the generator included in the gem</p>
   </span>
   
     <span class="summary_desc"><div class='inline'>
-<p>&lt;&lt;-EOF.</p>
+<p>Creates empty monit configuration file for this application, grants user
+permissions to modify it.</p>
 </div></span>
   
 </li>
@@ -230,12 +242,12 @@ the first time with the generator included in the gem</p>
       <pre class="lines">
 
 
-24
-25
-26</pre>
+20
+21
+22</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'monit', line 24</span>
+      <pre class="code"><span class="info file"># File 'monit', line 20</span>
 
 <span class='id identifier rubyid_task'>task</span> <span class='symbol'>:default</span> <span class='kw'>do</span>
   <span class='id identifier rubyid_run'>run</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_sudo'>sudo</span><span class='rbrace'>}</span><span class='tstring_content'> </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_monit_command'>monit_command</span><span class='rbrace'>}</span><span class='tstring_content'> summary</span><span class='tstring_end'>&quot;</span></span>
@@ -268,12 +280,12 @@ the first time with the generator included in the gem</p>
       <pre class="lines">
 
 
-29
-30
-31</pre>
+25
+26
+27</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'monit', line 29</span>
+      <pre class="code"><span class="info file"># File 'monit', line 25</span>
 
 <span class='id identifier rubyid_task'>task</span> <span class='symbol'>:full</span> <span class='kw'>do</span>
   <span class='id identifier rubyid_sudo'>sudo</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_monit_command'>monit_command</span><span class='rbrace'>}</span><span class='tstring_content'> status</span><span class='tstring_end'>&quot;</span></span>
@@ -306,15 +318,15 @@ the first time with the generator included in the gem</p>
       <pre class="lines">
 
 
-44
-45
-46</pre>
+39
+40
+41</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'monit', line 44</span>
+      <pre class="code"><span class="info file"># File 'monit', line 39</span>
 
 <span class='id identifier rubyid_task'>task</span> <span class='symbol'>:parse_config</span><span class='comma'>,</span> <span class='symbol'>:roles</span> <span class='op'>=&gt;</span> <span class='symbol'>:app</span> <span class='comma'>,</span> <span class='symbol'>:except</span> <span class='op'>=&gt;</span> <span class='lbrace'>{</span> <span class='symbol'>:no_release</span> <span class='op'>=&gt;</span> <span class='kw'>true</span> <span class='rbrace'>}</span> <span class='kw'>do</span>
-  <span class='id identifier rubyid_puts'>puts</span> <span class='id identifier rubyid_parse_template'>parse_template</span><span class='lparen'>(</span><span class='id identifier rubyid_database_config_template'>database_config_template</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_puts'>puts</span> <span class='id identifier rubyid_parse_template'>parse_template</span><span class='lparen'>(</span><span class='id identifier rubyid_monit_config_template'>monit_config_template</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -344,12 +356,12 @@ the first time with the generator included in the gem</p>
       <pre class="lines">
 
 
-18
-19
-20</pre>
+14
+15
+16</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'monit', line 18</span>
+      <pre class="code"><span class="info file"># File 'monit', line 14</span>
 
 <span class='id identifier rubyid_task'>task</span> <span class='symbol'>:reload</span><span class='comma'>,</span> <span class='symbol'>:roles</span> <span class='op'>=&gt;</span> <span class='symbol'>:app</span> <span class='kw'>do</span>
   <span class='id identifier rubyid_run'>run</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_sudo'>sudo</span><span class='rbrace'>}</span><span class='tstring_content'> </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_monit_command'>monit_command</span><span class='rbrace'>}</span><span class='tstring_content'> reload</span><span class='tstring_end'>&quot;</span></span>
@@ -368,12 +380,8 @@ the first time with the generator included in the gem</p>
 <div class="docstring">
   <div class="discussion">
     
-<p>&lt;&lt;-EOF</p>
-
-<pre class="code ruby"><code class="ruby">Parses the configuration file through ERB to fetch our variables and uploads the \
-result to /etc/monit/conf.d/\#{application}-\#{app_server} (can be configured via \
-:monit_config_path).
-EOF</code></pre>
+<p>Parses the configuration template file :<span class='object_link'><a href="#monit_config_template-classvariable" title="monit::monit_config_template (classvariable)">monit_config_template</a></span> through ERB
+to fetch our variables and uploads the result to :<span class='object_link'><a href="#monit_config_path-classvariable" title="monit::monit_config_path (classvariable)">monit_config_path</a></span></p>
 
 
   </div>
@@ -387,12 +395,12 @@ EOF</code></pre>
       <pre class="lines">
 
 
-39
-40
-41</pre>
+34
+35
+36</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'monit', line 39</span>
+      <pre class="code"><span class="info file"># File 'monit', line 34</span>
 
 <span class='id identifier rubyid_task'>task</span> <span class='symbol'>:setup</span><span class='comma'>,</span> <span class='symbol'>:roles</span> <span class='op'>=&gt;</span> <span class='symbol'>:app</span> <span class='comma'>,</span> <span class='symbol'>:except</span> <span class='op'>=&gt;</span> <span class='lbrace'>{</span> <span class='symbol'>:no_release</span> <span class='op'>=&gt;</span> <span class='kw'>true</span> <span class='rbrace'>}</span> <span class='kw'>do</span>
   <span class='id identifier rubyid_generate_config'>generate_config</span><span class='lparen'>(</span><span class='id identifier rubyid_monit_config_template'>monit_config_template</span><span class='comma'>,</span> <span class='id identifier rubyid_monit_config_path'>monit_config_path</span><span class='rparen'>)</span>
@@ -411,11 +419,8 @@ EOF</code></pre>
 <div class="docstring">
   <div class="discussion">
     
-<p>&lt;&lt;-EOF</p>
-
-<pre class="code ruby"><code class="ruby">Creates empty monit configuration file for this application, allows user to
-modify it.
-EOF</code></pre>
+<p>Creates empty monit configuration file for this application, grants user
+permissions to modify it</p>
 
 
   </div>
@@ -429,29 +434,19 @@ EOF</code></pre>
       <pre class="lines">
 
 
-57
-58
-59
-60
-61
-62
-63
-64
-65
-66
-67
-68
-69</pre>
+46
+47
+48
+49
+50
+51
+52
+53</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'monit', line 57</span>
+      <pre class="code"><span class="info file"># File 'monit', line 46</span>
 
-<span class='id identifier rubyid_task'>task</span> <span class='symbol'>:setup_host</span> <span class='kw'>do</span>
-  <span class='kw'>unless</span> <span class='id identifier rubyid_exists?'>exists?</span><span class='lparen'>(</span><span class='symbol'>:deploy_user</span><span class='rparen'>)</span>
-    <span class='id identifier rubyid_set'>set</span> <span class='symbol'>:deploy_user</span><span class='comma'>,</span> <span class='id identifier rubyid_user'>user</span>
-    <span class='id identifier rubyid_set'>set</span> <span class='symbol'>:user</span><span class='comma'>,</span> <span class='id identifier rubyid_root_user'>root_user</span>
-  <span class='kw'>end</span>
-
+<span class='id identifier rubyid_host_task'>host_task</span> <span class='symbol'>:setup_host</span> <span class='kw'>do</span>
   <span class='id identifier rubyid_run'>run</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_sudo'>sudo</span><span class='rbrace'>}</span><span class='tstring_content'> touch </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_monit_config_path'>monit_config_path</span><span class='rbrace'>}</span><span class='tstring_content'> &amp;&amp; </span><span class='tstring_end'>&quot;</span></span> \
       <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_sudo'>sudo</span><span class='rbrace'>}</span><span class='tstring_content'> chown </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_deploy_user'>deploy_user</span><span class='rbrace'>}</span><span class='tstring_content'>:</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_group'>group</span><span class='rbrace'>}</span><span class='tstring_content'> </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_monit_config_path'>monit_config_path</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
 
@@ -469,7 +464,7 @@ EOF</code></pre>
 </div>
 
     <div id="footer">
-  Generated on Thu Feb 14 11:23:25 2013 by
+  Generated on Fri Feb 15 13:55:34 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.4.1 (ruby-1.9.3).
 </div>

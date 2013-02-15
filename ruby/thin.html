@@ -6,7 +6,7 @@
 <title>
   Module: ruby::thin
   
-    &mdash; Documentation by YARD 0.8.4.1
+    &mdash; Capistrano-scrip documentation
   
 </title>
 
@@ -54,7 +54,22 @@
     <iframe id="search_frame"></iframe>
 
     <div id="content"><h1>Recipe: ruby/thin</h1>
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>Use thin as application server (inspired by <a
+href="https://github.com/johnbintz/capistrano-thin">github.com/johnbintz/capistrano-thin</a>)</p>
 
+<p>Thin is a Ruby web server built on top of Event Machine, a network I/O
+library with extremely high scalability, performance and stability.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
   <h2>Recipe variables</h2>
   
     <dl class="constants">
@@ -64,8 +79,7 @@
           <div class="docstring">
   <div class="discussion">
     
-<p>Inspired by <a
-href="https://github.com/johnbintz/capistrano-thin">github.com/johnbintz/capistrano-thin</a></p>
+<p>App server type, you normally shouldn’t change this</p>
 
 
   </div>
@@ -78,57 +92,180 @@ href="https://github.com/johnbintz/capistrano-thin">github.com/johnbintz/capistr
       
         <dt id="thin_command-classvariable" class="">:thin_command =
           <pre class="code" style="display:inline-block;"><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>bundle exec thin</span><span class='tstring_end'>'</span></span></pre>
-          
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Command to execute for running thin</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
         </dt>
       
         <dt id="thin_config_template-classvariable" class="">:thin_config_template =
           <pre class="code" style="display:inline-block;"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>thin.yml.erb</span><span class='tstring_end'>&quot;</span></span></pre>
-          
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Path to thing configuration template</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
         </dt>
       
         <dt id="thin_config_file-classvariable" class="">:thin_config_file =
           <pre class="code" style="display:inline-block;"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_shared_path'>shared_path</span><span class='rbrace'>}</span><span class='tstring_content'>/config/thin.yml</span><span class='tstring_end'>&quot;</span></span></pre>
-          
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Remote location of thin config template</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
         </dt>
       
-        <dt id="thin_config-classvariable" class="">:thin_config =
+        <dt id="thin_arguments-classvariable" class="">:thin_arguments =
           <pre class="code" style="display:inline-block;"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>-C </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_thin_config_file'>thin_config_file</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span></pre>
-          
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Default arguments for thin command</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
         </dt>
       
         <dt id="thin_socket-classvariable" class="">:thin_socket =
           <pre class="code" style="display:inline-block;"><span class='kw'>nil</span></pre>
-          
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Path to thin socket file. If nil, TCP port will be used. You can use
+something like <tt>#{shared_path}/socket/thin.sock</tt></p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
         </dt>
       
         <dt id="thin_port-classvariable" class="">:thin_port =
           <pre class="code" style="display:inline-block;"><span class='int'>3000</span></pre>
-          
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>TCP port to use with thin (not used if :thin_socket is set)</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
         </dt>
       
         <dt id="thin_pid-classvariable" class="">:thin_pid =
           <pre class="code" style="display:inline-block;"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_shared_path'>shared_path</span><span class='rbrace'>}</span><span class='tstring_content'>/pids/thin.pid</span><span class='tstring_end'>&quot;</span></span></pre>
-          
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Path to thin pid file</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
         </dt>
       
         <dt id="thin_log-classvariable" class="">:thin_log =
           <pre class="code" style="display:inline-block;"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_shared_path'>shared_path</span><span class='rbrace'>}</span><span class='tstring_content'>/log/thin.log</span><span class='tstring_end'>&quot;</span></span></pre>
-          
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Path to thin log file</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
         </dt>
       
         <dt id="thin_max_conns-classvariable" class="">:thin_max_conns =
           <pre class="code" style="display:inline-block;"><span class='int'>1024</span></pre>
-          
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Max concurrent connections can be handled by thin Setting higher then 1024
+might require superuser privileges on some system.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
         </dt>
       
         <dt id="thin_max_persistent_conns-classvariable" class="">:thin_max_persistent_conns =
           <pre class="code" style="display:inline-block;"><span class='int'>512</span></pre>
-          
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Max persistent connections can be handled by thin</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
         </dt>
       
         <dt id="thin_servers-classvariable" class="">:thin_servers =
           <pre class="code" style="display:inline-block;"><span class='int'>4</span></pre>
-          
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Number of thin instances to run</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
         </dt>
       
     </dl>
@@ -178,7 +315,10 @@ href="https://github.com/johnbintz/capistrano-thin">github.com/johnbintz/capistr
   </span>
   
     <span class="summary_desc"><div class='inline'>
-<p>&lt;&lt;-EOF.</p>
+<p>Parses the configuration file through ERB to fetch our variables and
+uploads the result to <tt>#{shared_path}/config/thin.rb</tt> (can be configured
+via <tt>:thin_config_file</tt>), to be loaded by whoever is booting up the
+thin.</p>
 </div></span>
   
 </li>
@@ -189,7 +329,9 @@ href="https://github.com/johnbintz/capistrano-thin">github.com/johnbintz/capistr
     <a href="#setup_host-class_method" title="thin:setup_host">thin:setup_host</a>
   </span>
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Creates thin config on server.</p>
+</div></span>
   
 </li>
 
@@ -251,12 +393,12 @@ href="https://github.com/johnbintz/capistrano-thin">github.com/johnbintz/capistr
       <pre class="lines">
 
 
-64
-65
-66</pre>
+82
+83
+84</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ruby/thin', line 64</span>
+      <pre class="code"><span class="info file"># File 'ruby/thin', line 82</span>
 
 <span class='id identifier rubyid_task'>task</span> <span class='symbol'>:parse_config</span><span class='comma'>,</span> <span class='symbol'>:roles</span> <span class='op'>=&gt;</span> <span class='symbol'>:app</span> <span class='comma'>,</span> <span class='symbol'>:except</span> <span class='op'>=&gt;</span> <span class='lbrace'>{</span> <span class='symbol'>:no_release</span> <span class='op'>=&gt;</span> <span class='kw'>true</span> <span class='rbrace'>}</span> <span class='kw'>do</span>
   <span class='id identifier rubyid_puts'>puts</span> <span class='id identifier rubyid_parse_template'>parse_template</span><span class='lparen'>(</span><span class='id identifier rubyid_thin_config_template'>thin_config_template</span><span class='rparen'>)</span>
@@ -289,12 +431,12 @@ href="https://github.com/johnbintz/capistrano-thin">github.com/johnbintz/capistr
       <pre class="lines">
 
 
-59
-60
-61</pre>
+77
+78
+79</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ruby/thin', line 59</span>
+      <pre class="code"><span class="info file"># File 'ruby/thin', line 77</span>
 
 <span class='id identifier rubyid_task'>task</span> <span class='symbol'>:restart</span><span class='comma'>,</span> <span class='symbol'>:roles</span> <span class='op'>=&gt;</span> <span class='symbol'>:app</span> <span class='kw'>do</span>
   <span class='id identifier rubyid_run'>run</span> <span class='id identifier rubyid_thin_restart_cmd'>thin_restart_cmd</span>
@@ -313,12 +455,10 @@ href="https://github.com/johnbintz/capistrano-thin">github.com/johnbintz/capistr
 <div class="docstring">
   <div class="discussion">
     
-<p>&lt;&lt;-EOF</p>
-
-<pre class="code ruby"><code class="ruby">Parses the configuration file through ERB to fetch our variables and \
-uploads the result to \#{shared_path}/config/thin.rb (can be configured via \
-:thin_config_file), to be loaded by whoever is booting up the thin.
-EOF</code></pre>
+<p>Parses the configuration file through ERB to fetch our variables and
+uploads the result to <tt>#{shared_path}/config/thin.rb</tt> (can be configured
+via <tt>:thin_config_file</tt>), to be loaded by whoever is booting up the
+thin.</p>
 
 
   </div>
@@ -332,15 +472,15 @@ EOF</code></pre>
       <pre class="lines">
 
 
-73
-74
-75
-76
-77
-78</pre>
+91
+92
+93
+94
+95
+96</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ruby/thin', line 73</span>
+      <pre class="code"><span class="info file"># File 'ruby/thin', line 91</span>
 
 <span class='id identifier rubyid_task'>task</span> <span class='symbol'>:setup</span><span class='comma'>,</span> <span class='symbol'>:roles</span> <span class='op'>=&gt;</span> <span class='symbol'>:app</span> <span class='comma'>,</span> <span class='symbol'>:except</span> <span class='op'>=&gt;</span> <span class='lbrace'>{</span> <span class='symbol'>:no_release</span> <span class='op'>=&gt;</span> <span class='kw'>true</span> <span class='rbrace'>}</span> <span class='kw'>do</span>
   <span class='comment'># TODO: refactor this to a more generic setup task once we have more socket tasks.
@@ -359,22 +499,33 @@ EOF</code></pre>
 
   
 </h3>
-<table class="source_code">
+<div class="docstring">
+  <div class="discussion">
+    
+<p>Creates thin config on server.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-80
-81
-82
-83
-84</pre>
+99
+100
+101
+102
+103</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ruby/thin', line 80</span>
+      <pre class="code"><span class="info file"># File 'ruby/thin', line 99</span>
 
-<span class='id identifier rubyid_task'>task</span> <span class='symbol'>:setup_host</span> <span class='kw'>do</span>
+<span class='id identifier rubyid_host_task'>host_task</span> <span class='symbol'>:setup_host</span> <span class='kw'>do</span>
   <span class='id identifier rubyid_with_user'>with_user</span> <span class='id identifier rubyid_deploy_user'>deploy_user</span> <span class='kw'>do</span>
     <span class='id identifier rubyid_thin'>thin</span><span class='period'>.</span><span class='id identifier rubyid_setup'>setup</span>
   <span class='kw'>end</span>
@@ -407,12 +558,12 @@ EOF</code></pre>
       <pre class="lines">
 
 
-49
-50
-51</pre>
+67
+68
+69</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ruby/thin', line 49</span>
+      <pre class="code"><span class="info file"># File 'ruby/thin', line 67</span>
 
 <span class='id identifier rubyid_task'>task</span> <span class='symbol'>:start</span><span class='comma'>,</span> <span class='symbol'>:roles</span> <span class='op'>=&gt;</span> <span class='symbol'>:app</span> <span class='kw'>do</span>
   <span class='id identifier rubyid_run'>run</span> <span class='id identifier rubyid_thin_start_cmd'>thin_start_cmd</span>
@@ -445,12 +596,12 @@ EOF</code></pre>
       <pre class="lines">
 
 
-54
-55
-56</pre>
+72
+73
+74</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'ruby/thin', line 54</span>
+      <pre class="code"><span class="info file"># File 'ruby/thin', line 72</span>
 
 <span class='id identifier rubyid_task'>task</span> <span class='symbol'>:stop</span><span class='comma'>,</span> <span class='symbol'>:roles</span> <span class='op'>=&gt;</span> <span class='symbol'>:app</span> <span class='kw'>do</span>
   <span class='id identifier rubyid_run'>run</span> <span class='id identifier rubyid_thin_stop_cmd'>thin_stop_cmd</span>
@@ -466,7 +617,7 @@ EOF</code></pre>
 </div>
 
     <div id="footer">
-  Generated on Thu Feb 14 11:23:25 2013 by
+  Generated on Fri Feb 15 13:55:34 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.4.1 (ruby-1.9.3).
 </div>

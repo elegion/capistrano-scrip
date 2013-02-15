@@ -6,7 +6,7 @@
 <title>
   File: README
   
-    &mdash; Documentation by YARD 0.8.4.1
+    &mdash; Capistrano-scrip documentation
   
 </title>
 
@@ -53,7 +53,10 @@
 
     <div id="content"><div id='filecontents'><h2>capistrano-scrip</h2>
 
-<p>bunch of capistrano recipes</p>
+<p>Bunch of capistrano recipes</p>
+
+<p>Documentation: <a href="http://elegion.github.com/capistrano-scrip/">http://elegion.github.com/capistrano-scrip/</a>
+GitHub: <a href="https://github.com/elegion/capistrano-scrip">https://github.com/elegion/capistrano-scrip</a></p>
 
 <h2>Installation</h2>
 
@@ -82,11 +85,122 @@ for your application:</p>
 <span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>capistrano-scrip/host</span><span class='tstring_end'>&quot;</span></span>
 </code></pre>
 
-<p>Then run <code>cap host:setup deploy:cold</code> to make your first deploy. Use <code>cap deploy:migrations</code> for next deploys.</p>
+<p>Then run <code>cap host:setup deploy:initial</code> to make your first deploy. Use <code>cap deploy:migrations</code> for next deploys.</p>
+
+<h3>Example of rails app deployment</h3>
+
+<p><code>config/deploy.rb</code>:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_default_run_options'>default_run_options</span><span class='lbracket'>[</span><span class='symbol'>:pty</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='kw'>true</span>     <span class='comment'># Must be set for the password prompt to work
+</span><span class='id identifier rubyid_set'>set</span> <span class='symbol'>:use_sudo</span><span class='comma'>,</span> <span class='kw'>false</span>                 <span class='comment'># Don't use sudo (deploy user must have very limited permissions in system)
+</span>
+<span class='id identifier rubyid_set'>set</span> <span class='symbol'>:default_stage</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>staging</span><span class='tstring_end'>&quot;</span></span>        <span class='comment'># Deploy on staging server by default
+</span>
+<span class='comment'># Configure capistrano deploy strategy
+</span><span class='id identifier rubyid_set'>set</span> <span class='symbol'>:repository</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>.</span><span class='tstring_end'>'</span></span>
+<span class='id identifier rubyid_set'>set</span> <span class='symbol'>:deploy_via</span><span class='comma'>,</span> <span class='symbol'>:copy</span>
+<span class='id identifier rubyid_set'>set</span> <span class='symbol'>:copy_exclude</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>.git</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>coverage</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>results</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>tmp</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>public/system</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>builder</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
+
+<span class='id identifier rubyid_set'>set</span> <span class='symbol'>:root_user</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>user</span><span class='tstring_end'>&quot;</span></span>               <span class='comment'># User with root privileges on server. You will need him only for host:setup
+</span>                                     <span class='comment'># and *:setup_host tasks. This will not be used during deploy,
+</span>                                     <span class='comment'># deploy:migrations and other common tasks.
+</span><span class='id identifier rubyid_set'>set</span> <span class='symbol'>:user</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>app_name</span><span class='tstring_end'>&quot;</span></span>                <span class='comment'># Deployer user
+</span><span class='id identifier rubyid_set'>set</span> <span class='symbol'>:group</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>app_name</span><span class='tstring_end'>&quot;</span></span>               <span class='comment'># Deployer group
+</span><span class='id identifier rubyid_set'>set</span> <span class='symbol'>:user_home_path</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/home/www</span><span class='tstring_end'>&quot;</span></span>     <span class='comment'># Deployer home on target system (used in host:setup when creating new user)
+</span><span class='id identifier rubyid_set'>set</span><span class='lparen'>(</span><span class='symbol'>:deploy_to</span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_user_home_path'>user_home_path</span><span class='rbrace'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_application'>application</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span> <span class='rbrace'>}</span> <span class='comment'># Path where to deploy your application
+</span>
+<span class='id identifier rubyid_role'>role</span><span class='lparen'>(</span><span class='symbol'>:web</span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_domain'>domain</span> <span class='rbrace'>}</span>                         <span class='comment'># Your HTTP server, Apache/etc
+</span><span class='id identifier rubyid_role'>role</span><span class='lparen'>(</span><span class='symbol'>:app</span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_domain'>domain</span> <span class='rbrace'>}</span>                         <span class='comment'># This may be the same as your `Web` server
+</span><span class='id identifier rubyid_role'>role</span><span class='lparen'>(</span><span class='symbol'>:db</span><span class='comma'>,</span> <span class='symbol'>:primary</span> <span class='op'>=&gt;</span> <span class='kw'>true</span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='id identifier rubyid_domain'>domain</span> <span class='rbrace'>}</span>        <span class='comment'># This is where Rails migrations will run
+</span>
+<span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>capistrano_colors</span><span class='tstring_end'>&quot;</span></span>                   <span class='comment'># Colorized output in console (gem install capistrano_colors)
+</span><span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>capistrano/ext/multistage</span><span class='tstring_end'>&quot;</span></span>           <span class='comment'># Enable multistage deployment
+</span><span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>capistrano-scrip/nginx</span><span class='tstring_end'>&quot;</span></span>              <span class='comment'># Use nginx as web-server
+</span><span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>capistrano-scrip/mysql</span><span class='tstring_end'>&quot;</span></span>              <span class='comment'># Use mysql as db-server
+</span><span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>capistrano-scrip/host</span><span class='tstring_end'>&quot;</span></span>               <span class='comment'># Require host:setup task
+</span><span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>capistrano-scrip/monit</span><span class='tstring_end'>&quot;</span></span>              <span class='comment'># Use monit as monitoring system
+</span><span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>capistrano-scrip/ruby/thin</span><span class='tstring_end'>&quot;</span></span>          <span class='comment'># Use thing as app-server
+</span><span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>capistrano-scrip/ruby/rails</span><span class='tstring_end'>&quot;</span></span>         <span class='comment'># Load rails-specific recipes
+</span><span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>bundler/capistrano</span><span class='tstring_end'>&quot;</span></span>                  <span class='comment'># Use bundler on server
+</span><span class='id identifier rubyid_load'>load</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>deploy/assets</span><span class='tstring_end'>&quot;</span></span>                          <span class='comment'># Use rails assets pipeline
+</span></code></pre>
+
+<p><code>config/deploy/production.rb</code></p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_set'>set</span> <span class='symbol'>:application</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>app_name</span><span class='tstring_end'>&quot;</span></span>                  <span class='comment'># Application name for production
+</span>                                              <span class='comment'># (it's used in some configs and paths)
+</span><span class='id identifier rubyid_set'>set</span> <span class='symbol'>:application_domain</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>app_domain.com</span><span class='tstring_end'>&quot;</span></span>     <span class='comment'># Domain for production server
+</span><span class='id identifier rubyid_set'>set</span> <span class='symbol'>:domain</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>192.168.1.1</span><span class='tstring_end'>&quot;</span></span>                    <span class='comment'># Server address where to deploy production
+</span></code></pre>
+
+<p><code>config/deploy/staging.rb</code></p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_set'>set</span> <span class='symbol'>:application</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>app_name_test</span><span class='tstring_end'>&quot;</span></span>             <span class='comment'># Application name for staging server
+</span><span class='id identifier rubyid_set'>set</span> <span class='symbol'>:application_domain</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>qa.app_domain.com</span><span class='tstring_end'>&quot;</span></span>  <span class='comment'># Domain for staging server
+</span><span class='id identifier rubyid_set'>set</span> <span class='symbol'>:domain</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>192.168.1.1</span><span class='tstring_end'>&quot;</span></span>                    <span class='comment'># Server address where to deploy staging
+</span></code></pre>
+
+<p>Then execute <code>cap host:setup deploy:initial nginx:enable</code> to create user and config files and perform initial deploy,
+then symlink <code>/etc/nginx/sites-available/app_name.conf</code> to <code>/etc/nginx/sites-enabled/app_name.conf</code>.
+On next deploy just run <code>cap deploy:migrations</code> to deploy new application version.</p>
+
+<p><code>cap host:setup</code> will perform:</p>
+
+<ul>
+<li><code>host:create_user</code> - creates <code>:user</code> on target system (if doesn&#39;t exist yet)</li>
+<li><code>host:ssh_copy_id</code> - adds <code>~/.ssh/id_rsa.pub</code> from local machine to <code>authorized_keys</code> on target machine for <code>:user</code></li>
+<li>Then it performs <code>*:setup_host</code> for all loaded recipes:
+
+<ul>
+<li><code>nginx:setup_host</code> - creates nginx config file in <code>/etc/nginx/sites-available/app_name.conf</code>, grants user
+permissions to modify it. Creates <code>#{deploy_to}/shared/logs/nginx</code> directory and grants nginx permissions to
+write there.</li>
+<li><code>mysql:setup_host</code> - creates mysql user with random password grants him administrative permissions for application
+database (<code>:database_name</code>). Then creates <code>:database_config_template</code> in <code>#{deploy_to}/shared/config/database.yml</code>,
+grants it 440 permissions (only user and group can read it). It will be symlinked to
+<code>#{deploy_to}/current/config/database.yml</code> on each deploy.</li>
+<li><code>monit:setup_host</code> - creates monit config file for thin in <code>/etc/monit/conf.d/app_name-thin</code>, grants user
+permissions to modify it.</li>
+<li><code>thin:setup_host</code> - creates directory for thin sockets (if <code>:thin_socket</code> is set), creates thin config file in
+<code>#{deploy_to}/shared/config/thin.yml</code></li>
+</ul></li>
+</ul>
+
+<h2>Config templates</h2>
+
+<p>Capistrano-scrip uses ERB to parse nginx/monit/thin/etc templates. You can see default config templates at github:
+<a href="https://github.com/elegion/capistrano-scrip/tree/master/templates">https://github.com/elegion/capistrano-scrip/tree/master/templates</a></p>
+
+<p>If you don&#39;t like any of this, you can replace it with you own:</p>
+
+<ul>
+<li>Put your template in <code>config/deploy/templates/#{template_name}</code></li>
+<li>Or change <code>*_template</code> variable value to reflect your template path: <code>set :monit_config_template, &#39;deploy/monit.erb&#39;</code></li>
+</ul>
+
+<h2>Contributing</h2>
+
+<ol>
+<li>Fork</li>
+<li>Create your feature branch (<code>git checkout -b my_branch</code>)</li>
+<li>Commit your changes (<code>git commit -am &quot;my cool feature&quot;</code>)</li>
+<li>Push to the branch (<code>git push origin my_branch</code>)</li>
+<li>Create new Pull Request</li>
+</ol>
+
+<h3>Editing documentation</h3>
+
+<ol>
+<li>Install dependencies: <code>bundle install</code></li>
+<li>Run yard server: <code>bundle exec yard server -r</code></li>
+<li>Edit documentation</li>
+<li>Preview your changes at http://localhost:8808/</li>
+<li>Commit: `git commit -am &quot;Updated documentation for ...&quot;</li>
+</ol>
 </div></div>
 
     <div id="footer">
-  Generated on Thu Feb 14 11:23:24 2013 by
+  Generated on Fri Feb 15 13:55:34 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.4.1 (ruby-1.9.3).
 </div>
