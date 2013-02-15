@@ -56,7 +56,4 @@ Capistrano::Configuration.instance.load do
   after 'host:setup' do
     monit.setup_host #if Capistrano::CLI.ui.agree("Create monit-related files? [Yn]")
   end
-  after 'deploy:setup' do
-    monit.setup if !exists?(:deploy_user) && Capistrano::CLI.ui.agree("Create monit configuration file? [Yn]")
-  end
 end

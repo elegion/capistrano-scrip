@@ -95,9 +95,6 @@ Capistrano::Configuration.instance.load do
   after 'host:setup' do
     nginx.setup_host #if Capistrano::CLI.ui.agree("Create nginx-related files and folders? [Yn]")
   end
-  after 'deploy:setup' do
-    nginx.setup
-  end
   after "deploy:create_symlink", "nginx:setup", :roles => :app
 end
 
