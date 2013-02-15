@@ -46,6 +46,16 @@ Capistrano::Configuration.instance.load do
           "#{sudo} mv $TMPDIR/sudoers.tmp /etc/sudoers"
     end
 
+    desc("Symlinks nginx config to +\#{nginx_path_prefix}/sites-enabled+")
+    host_task :enable, :roles => :app , :except => { :no_release => true } do
+      run "#{sudo} ln -s \"#{nginx_config_path}\" \"#{nginx_path_prefix}/sites-enabled/#{File.basename(nginx_config_path)}\""
+    end
+
+    desc("Removes nginx config from +\#{nginx_path_prefix}/sites-enabled+")
+    host_task :disabled, :roles => :app , :except => { :no_release => true } do
+      run "#{sudo} unlink \"#{nginx_path_prefix}/sites-enabled/#{File.basename(nginx_config_path)}\""
+    end
+
     desc "Parses and uploads nginx config file for this app."
     task :setup, :roles => :app , :except => { :no_release => true } do
       generate_config(nginx_config_template, nginx_config_path)
