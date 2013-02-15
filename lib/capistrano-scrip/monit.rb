@@ -1,17 +1,14 @@
 require 'capistrano-scrip/utils'
 
+# monit is a free, open source process supervision tool for Unix and Linux.
 Capistrano::Configuration.instance.load do
-  # Our monit template to be parsed by erb
-  # You may need to generate this file the first time with the generator
-  # included in the gem
+  # Path to monit configuration template
   _cset(:monit_config_template) { "monit/monit_#{app_server}.conf.erb" }
-
-  # The remote location of monit's config file. Used by god to fire it up
+  # The remote location of monit's config file
   _cset(:monit_config_path) { "/etc/monit/conf.d/#{application}-#{app_server}" }
-
+  # Path to monit binary on server
   _cset(:monit_command) { "monit" }
-  # Monit
-  #------------------------------------------------------------------------------
+
   namespace :monit do
     desc "Reloads monit"
     task :reload, :roles => :app do
@@ -31,27 +28,20 @@ Capistrano::Configuration.instance.load do
     end
 
     desc <<-EOF
-    Parses the configuration file through ERB to fetch our variables and uploads the \
-    result to /etc/monit/conf.d/\#{application}-\#{app_server} (can be configured via \
-    :monit_config_path).
+    Parses the configuration template file :{monit_config_template} through ERB to fetch our variables \
+    and uploads the result to :{monit_config_path}
     EOF
     task :setup, :roles => :app , :except => { :no_release => true } do
       generate_config(monit_config_template, monit_config_path)
     end
 
-    desc "Parses config file and outputs it to STDOUT (internal task)"
-    task :parse_config, :roles => :app , :except => { :no_release => true } do
-      puts parse_template(database_config_template)
-    end
-
-    desc "Parses config file and outputs it to STDOUT (internal task)"
+    desc "Parses config file and outputs it to STDOUT (internal task) "
     task :parse_config, :roles => :app , :except => { :no_release => true } do
       puts parse_template(monit_config_template)
     end
 
     desc <<-EOF
-    Creates empty monit configuration file for this application, allows user to
-    modify it.
+    Creates empty monit configuration file for this application, grants user permissions to modify it
     EOF
     task :setup_host do
       unless exists?(:deploy_user)

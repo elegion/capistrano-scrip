@@ -1,10 +1,14 @@
 Capistrano::Configuration.instance.load do
+  # Nginx unix-user
   _cset(:nginx_user) { "www-data" }
+  # Nginx unix-group
   _cset(:nginx_group) { "www-data" }
+  # Where nginx logs will live
   _cset(:nginx_log_path) { "#{shared_path}/log/nginx"}
 
-  # Where your nginx lives. Usually /etc/nginx/ or /opt/nginx or /usr/local/nginx for source compiled.
+  # Where your nginx lives. Usually +/etc/nginx+ or +/opt/nginx+ or +/usr/local/nginx+ for source compiled.
   _cset(:nginx_path_prefix) { "/etc/nginx" }
+  # Nginx port for your application
   _cset(:nginx_port) { 80 }
 
   # Path to the nginx erb template to be parsed before uploading to remote
@@ -16,7 +20,11 @@ Capistrano::Configuration.instance.load do
   # Nginx tasks are not *nix agnostic, they assume you're using Debian/Ubuntu.
   # Override them as needed.
   namespace :nginx do
-    desc "Parses and uploads nginx configuration for this app."
+    desc <<-EOF
+    Creates nginx config file on target system, grants user permissions to modify it,
+    creates nginx log dir, grants nginx permissions to write there.
+    Grants deployer user permissions to perform +service nginx reload+
+    EOF
     task :setup_host do
       # Create (empty) site config file and allow user to modify it
       run "#{sudo} touch #{nginx_config_path}"
@@ -46,7 +54,7 @@ Capistrano::Configuration.instance.load do
       puts parse_template(nginx_config_template)
     end
     
-    desc "Restart nginx"
+    desc "Restart nginx (probably deployer user will have no permissions for this task)"
     task :restart, :roles => :app , :except => { :no_release => true } do
       run "#{sudo} service nginx restart"
     end
@@ -56,17 +64,17 @@ Capistrano::Configuration.instance.load do
       run "#{sudo} service nginx reload"
     end
     
-    desc "Stop nginx"
+    desc "Stop nginx (probably deployer user will have no permissions for this task)"
     task :stop, :roles => :app , :except => { :no_release => true } do
       run "#{sudo} service nginx stop"
     end
     
-    desc "Start nginx"
+    desc "Start nginx (probably deployer user will have no permissions for this task)"
     task :start, :roles => :app , :except => { :no_release => true } do
       run "#{sudo} service nginx start"
     end
 
-    desc "Show nginx status"
+    desc "Show nginx status (probably deployer user will have no permissions for this task)"
     task :status, :roles => :app , :except => { :no_release => true } do
       run "service nginx status"
     end

@@ -1,4 +1,5 @@
 Capistrano::Configuration.instance.load do
+  # Django-related tasks
   namespace :django do
     _cset(:python) { "python" }
 

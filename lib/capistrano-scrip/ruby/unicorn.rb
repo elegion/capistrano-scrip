@@ -1,6 +1,11 @@
 require 'capistrano-scrip/utils'
 
+# Use unicorn as application server (inspired by https://github.com/webficient/capistrano-recipes)
+#
+# Unicorn is an HTTP server for Rack applications designed to only serve fast clients on low-latency, high-bandwidth
+# connections and take advantage of features in Unix/Unix-like kernels.
 Capistrano::Configuration.instance.load do
+  # App server type, you normally shouldn't change this
   _cset(:app_server) { "unicorn" }
 
   # Number of workers (Rule of thumb is 2 per CPU)
@@ -20,7 +25,7 @@ Capistrano::Configuration.instance.load do
   # The wrapped bin to start unicorn
   # This is necessary if you're using rvm
   _cset(:unicorn_bin) { 'bundle exec unicorn' }
-  _cset(:unicorn_socket) { File.join(sockets_path, 'unicorn.sock') }
+  _cset(:unicorn_socket) { "#{shared_path}/socket/unicorn.sock" }
 
   # Defines where the unicorn pid will live.
   _cset(:unicorn_pid) { "#{shared_path}/pids/unicorn.pid" }
@@ -92,6 +97,10 @@ Capistrano::Configuration.instance.load do
       generate_config(unicorn_script_template,unicorn_script_path)
     end
 
+    desc <<-EOF
+    Creates unicorn run script, grants user permissions to modify and run it.
+    Creates unicorn config file and grants user permissions to modify it.
+    EOF
     task :setup_host do
       run "#{sudo} touch #{unicorn_script_path} && " \
           "#{sudo} chown #{deploy_user}:#{group} #{unicorn_script_path} && " \

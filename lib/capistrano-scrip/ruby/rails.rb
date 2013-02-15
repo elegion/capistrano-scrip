@@ -1,16 +1,31 @@
+# Rails-specific tasks
 Capistrano::Configuration.instance.load do
   namespace :deploy do
-    task :cold do       # Overriding the default deploy:cold (to run db:setup instead of db:migrate)
+    desc <<-EOF
+    Deploys application for first time - after deploying code it will create database and run +db:seed+, then start
+    server
+
+    @note THIS TASK CAN DESTROY YOUR EXISTING DATABASE
+    EOF
+    task :cold do
       update
       db_setup
       db_seed
       start
     end
 
+    desc <<-EOF
+    Runs +rake db:setup+
+
+    @note THIS TASK CAN DESTROY YOUR EXISTING DATABASE
+    EOF
     task :db_setup, :roles => :app do
       run "cd #{current_path}; bundle exec rake environment RAILS_ENV=#{rails_env} db:setup"
     end
 
+    desc <<-EOF
+    Runs +rake db:seed+
+    EOF
     task :db_seed, :roles => :app do
       run "cd #{current_path}; bundle exec rake environment RAILS_ENV=#{rails_env} db:seed"
     end

@@ -1,13 +1,14 @@
 require 'securerandom'
 
 Capistrano::Configuration.instance.load do
+  # Postgres user name
   _cset(:database_user) { "#{deploy_user || user}" }
-
+  # Postgres database name
   _cset(:database_name) { "#{application}" }
-  # Path to the database erb template to be parsed before uploading to remote
+  # Path to the rails database erb template to be parsed before uploading to remote server
   _cset(:database_config_template) { "database.yml.erb" }
-
-  # Path to where your remote config will reside (I use a directory sites inside conf)
+  # Path to where your remote rails database config will reside
+  # (it will be symlinked to +#{current_release}/config/database.yml+ on each deploy)
   _cset(:database_config_path) { "#{shared_path}/config/database.yml" }
 
   namespace :db do
@@ -38,7 +39,10 @@ Capistrano::Configuration.instance.load do
       puts parse_template(database_config_template)
     end
 
-    desc "Uploads database config and creates database user"
+    desc <<-EOF
+    Creates database user, database, grants user administrative privileges on this database, creates
+    database config.
+    EOF
     task :setup_host do
       unless exists?(:deploy_user)
         set :deploy_user, user

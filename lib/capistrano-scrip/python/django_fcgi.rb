@@ -1,10 +1,16 @@
 Capistrano::Configuration.instance.load do
   namespace :django_fcgi do
+    # Set django as :app_server
     _cset(:app_server) { "django_fcgi" }
+    # Python executable path
     _cset(:python) { "python" }
+    # Template name for django fcgi init script
     _cset(:django_fcgi_template) { "django_fcgi.sh.erb" }
+    # Where django fcgi init script will be uploaded to
     _cset(:django_fcgi_script_path) { "/etc/init.d/#{application}.sh" }
+    # Path to django socket
     _cset(:django_fcgi_socket_path) { "#{shared_path}/socket/django_fcgi.sock" }
+    # Path to django fcgi pidfile
     _cset(:django_fcgi_pid_path) { "#{shared_path}/pids/django_fcgi.pid" }
 
     task :setup_host do
