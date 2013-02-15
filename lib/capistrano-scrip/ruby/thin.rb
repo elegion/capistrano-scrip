@@ -33,16 +33,19 @@ Capistrano::Configuration.instance.load do
   # Number of thin instances to run
   _cset(:thin_servers) { 4 }
 
+  # Servers are counted from "1", not zero!
   def thin_socket_for_server(number)
-    thin_socket.sub(/\.sock$/, ".#{number+1}.sock")
+    thin_socket.sub(/\.sock$/, ".#{number-1}.sock")
   end
 
+  # Servers are counted from "1", not zero!
   def thin_port_for_server(number)
-    thin_port + number
+    thin_port + number - 1
   end
 
+  # Servers are counted from "1", not zero!
   def thin_pid_for_server(number)
-    thin_pid.sub(/\.pid$/, ".#{thin_socket ? number : thin_port_for_server(number)}.pid")
+    thin_pid.sub(/\.pid$/, ".#{thin_socket ? number - 1 : thin_port_for_server(number)}.pid")
   end
 
   def thin_start_cmd
