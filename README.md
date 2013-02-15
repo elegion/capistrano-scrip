@@ -28,7 +28,7 @@ for your application:
     require "capistrano-scrip/mysql"
     require "capistrano-scrip/host"
 
-Then run `cap host:setup deploy:cold` to make your first deploy. Use `cap deploy:migrations` for next deploys.
+Then run `cap host:setup deploy:initial` to make your first deploy. Use `cap deploy:migrations` for next deploys.
 
 ### Example of rails app deployment
 
@@ -80,7 +80,7 @@ Then run `cap host:setup deploy:cold` to make your first deploy. Use `cap deploy
     set :application_domain, "qa.app_domain.com"  # Domain for staging server
     set :domain, "192.168.1.1"                    # Server address where to deploy staging
 
-Then execute `cap host:setup deploy:cold nginx:enable` to create user and config files and perform "cold" deploy,
+Then execute `cap host:setup deploy:initial nginx:enable` to create user and config files and perform initial deploy,
 then symlink `/etc/nginx/sites-available/app_name.conf` to `/etc/nginx/sites-enabled/app_name.conf`.
 On next deploy just run `cap deploy:migrations` to deploy new application version.
 

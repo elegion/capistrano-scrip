@@ -9,7 +9,7 @@ Capistrano::Configuration.instance.load do
 
     @note THIS TASK CAN DESTROY YOUR EXISTING DATABASE
     EOF
-    task :cold do
+    task :initial do
       update
       db_setup
       db_seed
