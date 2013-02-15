@@ -43,12 +43,7 @@ Capistrano::Configuration.instance.load do
     desc <<-EOF
     Creates empty monit configuration file for this application, grants user permissions to modify it
     EOF
-    task :setup_host do
-      unless exists?(:deploy_user)
-        set :deploy_user, user
-        set :user, root_user
-      end
-
+    host_task :setup_host do
       run "#{sudo} touch #{monit_config_path} && " \
           "#{sudo} chown #{deploy_user}:#{group} #{monit_config_path}"
 

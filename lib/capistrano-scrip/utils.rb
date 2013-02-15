@@ -2,6 +2,23 @@ def _cset(variable, *args, &block)
   set(variable, *args, &block) unless exists?(variable)
 end
 
+# Performs task on behalf of :root_user
+def host_task(name, options={}, &block)
+  task(name, options) do
+    unless exists?(:deploy_user)
+      set :deploy_user, user
+      set :user, root_user
+      teardown_connections_to(sessions.keys)
+    end
+
+    block.call
+
+    set :user, deploy_user
+    unset :deploy_user
+    teardown_connections_to(sessions.keys)
+  end
+end
+
 def with_user(new_user, &block)
   old_user = user
   if old_user != new_user

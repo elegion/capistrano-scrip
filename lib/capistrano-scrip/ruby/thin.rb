@@ -93,7 +93,7 @@ Capistrano::Configuration.instance.load do
     end
 
     desc "Creates thin config on server."
-    task :setup_host do
+    host_task :setup_host do
       with_user deploy_user do
         thin.setup
       end

@@ -1,3 +1,5 @@
+require 'capistrano-scrip/utils'
+
 Capistrano::Configuration.instance.load do
   # Django-related tasks
   namespace :django do

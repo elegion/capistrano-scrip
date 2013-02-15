@@ -101,7 +101,7 @@ Capistrano::Configuration.instance.load do
     Creates unicorn run script, grants user permissions to modify and run it.
     Creates unicorn config file and grants user permissions to modify it.
     EOF
-    task :setup_host do
+    host_task :setup_host do
       run "#{sudo} touch #{unicorn_script_path} && " \
           "#{sudo} chown #{deploy_user}:#{group} #{unicorn_script_path} && " \
           "#{sudo} chmod u+x #{unicorn_script_path}"

@@ -1,3 +1,5 @@
+require 'capistrano-scrip/utils'
+
 Capistrano::Configuration.instance.load do
   namespace :django_fcgi do
     # Set django as :app_server
@@ -13,7 +15,7 @@ Capistrano::Configuration.instance.load do
     # Path to django fcgi pidfile
     _cset(:django_fcgi_pid_path) { "#{shared_path}/pids/django_fcgi.pid" }
 
-    task :setup_host do
+    host_task :setup_host do
       script_name = File.basename django_fcgi_script_path
       # Create fcgi script, allow user to modify it
       run "#{sudo} touch #{django_fcgi_script_path}"

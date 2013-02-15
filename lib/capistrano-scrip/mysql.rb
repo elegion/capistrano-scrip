@@ -1,3 +1,4 @@
+require 'capistrano-scrip/utils'
 require 'securerandom'
 
 Capistrano::Configuration.instance.load do
@@ -43,12 +44,7 @@ Capistrano::Configuration.instance.load do
     Creates database user, database, grants user administrative privileges on this database, creates
     database config.
     EOF
-    task :setup_host do
-      unless exists?(:deploy_user)
-        set :deploy_user, user
-        set :user, root_user
-      end
-
+    host_task :setup_host do
       if remote_file_exists?(database_config_path)
         logger.important "Skipping creating DB config, file already exists: #{database_config_path}"
       else

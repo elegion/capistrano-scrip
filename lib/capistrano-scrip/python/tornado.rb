@@ -1,3 +1,5 @@
+require 'capistrano-scrip/utils'
+
 Capistrano::Configuration.instance.load do
   namespace :tornado do
     _cset(:app_server) { "tornado" }

@@ -1,3 +1,5 @@
+require 'capistrano-scrip/utils'
+
 # Rails-specific tasks
 Capistrano::Configuration.instance.load do
   namespace :deploy do

@@ -1,3 +1,5 @@
+require 'capistrano-scrip/utils'
+
 Capistrano::Configuration.instance.load do
   namespace :south do
     _cset(:python) { "python" }

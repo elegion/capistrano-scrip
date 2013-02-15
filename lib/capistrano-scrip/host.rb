@@ -16,7 +16,7 @@ Capistrano::Configuration.instance.load do
     _cset(:ssh_public_key) { "~/.ssh/id_rsa.pub" }
 
     desc "Creates user, enables ssh authorization"
-    task :create_user do
+    host_task :create_user do
       script = <<-eos
         set -e;
         if #{sudo} id -u #{deploy_user} >/dev/null 2>&1 ; then
@@ -46,7 +46,7 @@ Capistrano::Configuration.instance.load do
         !!!bash
         cap host:ssh_copy_id -s ssh_public_key="AAAAB3N....2zQ== host@user"
     EOF
-    task :ssh_copy_id do
+    host_task :ssh_copy_id do
       key_path = File.expand_path(ssh_public_key)
       if File.exist?(key_path)
         key_string = IO.readlines(key_path)[0]
@@ -76,15 +76,11 @@ Capistrano::Configuration.instance.load do
     it will not create extra users / destroy config files or data.
     EOF
     task :setup do
-      set :deploy_user, user
-      set :user, root_user
-
+      # It's not "host" task because inner tasks are host_tasks (not all of them)
       create_user
       ssh_copy_id
 
-      with_user deploy_user do
-        deploy.setup
-      end
+      deploy.setup
     end
   end
 end

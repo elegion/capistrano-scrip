@@ -1,3 +1,5 @@
+require 'capistrano-scrip/utils'
+
 Capistrano::Configuration.instance.load do
   namespace :pip do
     _cset(:pip_bin) { "pip" }

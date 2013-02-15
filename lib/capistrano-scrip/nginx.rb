@@ -1,3 +1,5 @@
+require 'capistrano-scrip/utils'
+
 Capistrano::Configuration.instance.load do
   # Nginx unix-user
   _cset(:nginx_user) { "www-data" }
@@ -25,7 +27,7 @@ Capistrano::Configuration.instance.load do
     creates nginx log dir, grants nginx permissions to write there.
     Grants deployer user permissions to perform +service nginx reload+
     EOF
-    task :setup_host do
+    host_task :setup_host do
       # Create (empty) site config file and allow user to modify it
       run "#{sudo} touch #{nginx_config_path}"
       run "#{sudo} chown #{deploy_user}:#{group} #{nginx_config_path}"
