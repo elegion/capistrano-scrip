@@ -54,6 +54,6 @@ Capistrano::Configuration.instance.load do
   end
 
   after 'host:setup' do
-    monit.setup_host #if Capistrano::CLI.ui.agree("Create monit-related files? [Yn]")
+    monit.setup_host #if Capistrano::CLI.ui.agree("Create monit-related files? [y/n]")
   end
 end

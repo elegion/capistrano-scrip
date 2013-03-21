@@ -125,7 +125,7 @@ Capistrano::Configuration.instance.load do
   end
 
   after 'host:setup' do
-    unicorn.setup_host #if Capistrano::CLI.ui.agree("Create unicorn run script? [Yn]")
+    unicorn.setup_host #if Capistrano::CLI.ui.agree("Create unicorn run script? [y/n]")
   end
   after 'deploy:setup' do
     unicorn.setup if !exists?(:deploy_user) && Capistrano::CLI.ui.agree("Create unicorn configuration file? [Yn]")

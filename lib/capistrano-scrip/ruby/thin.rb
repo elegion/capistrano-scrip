@@ -116,7 +116,7 @@ Capistrano::Configuration.instance.load do
   end
 
   after 'host:setup' do
-    thin.setup_host #if Capistrano::CLI.ui.agree("Create thin run script? [Yn]")
+    thin.setup_host #if Capistrano::CLI.ui.agree("Create thin run script? [y/n]")
   end
   after 'deploy:setup' do
     thin.setup

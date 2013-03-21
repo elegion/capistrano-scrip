@@ -61,7 +61,7 @@ Capistrano::Configuration.instance.load do
   end
 
   after 'host:setup' do
-    db.setup_host #if Capistrano::CLI.ui.agree("Create database config? [Yn]")
+    db.setup_host #if Capistrano::CLI.ui.agree("Create database config? [y/n]")
   end
 end
 

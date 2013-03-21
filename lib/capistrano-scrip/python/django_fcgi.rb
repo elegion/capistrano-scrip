@@ -48,10 +48,10 @@ Capistrano::Configuration.instance.load do
   after 'host:setup' do
     create_remote_dir(File.dirname(django_fcgi_socket_path)) if django_fcgi_socket_path
 
-    django_fcgi.setup_host if Capistrano::CLI.ui.agree("Create fcgi-related files? [Yn]")
+    django_fcgi.setup_host if Capistrano::CLI.ui.agree("Create fcgi-related files? [y/n]")
   end
   after 'deploy:setup' do
-    django_fcgi.setup if Capistrano::CLI.ui.agree("Create fcgi run script? [Yn]")
+    django_fcgi.setup if Capistrano::CLI.ui.agree("Create fcgi run script? [y/n]")
   end
   after 'deploy:symlink', 'django_fcgi:restart'
 end
