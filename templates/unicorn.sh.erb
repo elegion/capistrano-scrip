@@ -12,7 +12,7 @@ TIMEOUT=<%= unicorn_workers_timeout %>
 APP_ROOT="<%= current_path %>"
 PID="<%= unicorn_pid %>"
 ENVIRONMENT=<%= rails_env %>
-CONFIG="<%= unicorn_remote_config %>"
+CONFIG="<%= unicorn_config_path %>"
 CMD="bundle exec unicorn -c $CONFIG -E $ENVIRONMENT -D"
 action="$1"
 #set -u
