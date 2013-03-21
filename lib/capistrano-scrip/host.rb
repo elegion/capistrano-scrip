@@ -29,7 +29,11 @@ Capistrano::Configuration.instance.load do
         fi;
       eos
       if exists?(:rvm_ruby_string)
-        script << "#{sudo} usermod -a -G rvm #{deploy_user};"
+        script << <<-eos
+          if #{sudo} getent group rvm >/dev/null 2>&1; then
+            #{sudo} usermod -a -G rvm #{deploy_user};
+          fi;
+        eos
       end
       run script
     end
