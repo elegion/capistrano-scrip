@@ -52,7 +52,7 @@ Capistrano::Configuration.instance.load do
     end
 
     desc("Removes nginx config from +\#{nginx_path_prefix}/sites-enabled+")
-    host_task :disabled, :roles => :app , :except => { :no_release => true } do
+    host_task :disable, :roles => :app , :except => { :no_release => true } do
       run "#{sudo} unlink \"#{nginx_path_prefix}/sites-enabled/#{File.basename(nginx_config_path)}\""
     end
 
