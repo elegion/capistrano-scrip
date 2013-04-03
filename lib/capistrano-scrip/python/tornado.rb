@@ -26,7 +26,7 @@ Capistrano::Configuration.instance.load do
     end
 
     after 'deploy:setup' do
-      tornado.setup if Capistrano::CLI.ui.agree("Create tornado run script? [Yn]")
+      tornado.setup if Capistrano::CLI.ui.agree("Create tornado run script? [y/n]")
     end
     after 'deploy:symlink', 'tornado:restart'
   end
