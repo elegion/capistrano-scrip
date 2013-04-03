@@ -1,6 +1,7 @@
 base: &base
   adapter: mysql2
   encoding: utf8
+  collation: utf8_general_ci
   username: <%= database_user %>
   password: <%= database_password %>
   host: localhost
