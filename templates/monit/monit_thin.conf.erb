@@ -1,15 +1,15 @@
 <% (1..thin_servers).each do |server_number| %>
 check process thin-<%= application %>-<%= server_number %>
   with pidfile <%= thin_pid_for_server(server_number) %>
-  start program = "/usr/bin/env sh -c '<%= thin_start_cmd %>'"
-        as uid <%= user %>
-  stop program = "/usr/bin/env sh -c 'cd <%= thin_stop_cmd %>'"
-        as uid <%= user %>
-  if failed
-    unixsocket <%= thin_socket %>
-    then restart
+  start program = "/bin/su - <%= user %> -c '<%= thin_start_cmd %>'"
+  stop program = "/bin/su - <%= user %> -c '<%= thin_stop_cmd %>'"
+<% if thin_socket %>
+  if failed unixsocket <%= thin_socket_for_server(server_number) %>
+    restart
+<% else %>
+  if failed port <%= thin_port_for_server(server_number) %> protocol http with timeout 30 seconds for 2 cycles then restart
+<% end %>
   if mem is greater than 300.0 MB for 1 cycles then restart           # eating up memory?
-#  if cpu is greater than 50% for 2 cycles then alert                  # send an email to admin
   if cpu is greater than 80% for 3 cycles then restart                # hung process?
   if 5 restarts within 5 cycles then alert
   group thin-<%= application %>
