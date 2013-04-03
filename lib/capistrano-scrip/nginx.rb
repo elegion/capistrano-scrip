@@ -93,7 +93,7 @@ Capistrano::Configuration.instance.load do
   end
 
   after 'host:setup' do
-    nginx.setup_host #if Capistrano::CLI.ui.agree("Create nginx-related files and folders? [Yn]")
+    nginx.setup_host #if Capistrano::CLI.ui.agree("Create nginx-related files and folders? [y/n]")
   end
   after "deploy:create_symlink", "nginx:setup", :roles => :app
 end
