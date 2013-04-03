@@ -4,6 +4,7 @@ Capistrano::Configuration.instance.load do
   # Django-related tasks
   namespace :django do
     _cset(:python) { "python" }
+    _cset(:django_use_staticfiles) { true }
 
     task :collectstatic do
       run "#{python} #{latest_release}/manage.py collectstatic --noinput"
@@ -28,5 +29,5 @@ Capistrano::Configuration.instance.load do
     end
   end
 
-  after 'deploy:update_code', 'django:collectstatic'
+  after 'deploy:update_code', 'django:collectstatic' if django_use_staticfiles
 end
