@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = %w(lib)
-  s.extra_rdoc_files = %w(LICENSE README.rdoc)
+  s.extra_rdoc_files = %w(LICENSE)
 
   s.add_dependency "capistrano", ">= 2.5.9"
   s.add_development_dependency "yard", "~> 0.8.4"
