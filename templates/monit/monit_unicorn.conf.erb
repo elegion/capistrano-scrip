@@ -1,8 +1,8 @@
 check process unicorn-<%= application %>
   with pidfile <%= unicorn_pid %>
-  start program = "<%= unicorn_remote_script %> start"
+  start program = "<%= unicorn_script_path %> start"
         as uid <%= user %>
-  stop program = "<%= unicorn_remote_script %> stop"
+  stop program = "<%= unicorn_script_path %> stop"
         as uid <%= user %>
   if failed
     unixsocket <%= unicorn_socket %>
@@ -18,7 +18,7 @@ check process unicorn-worker<%= worker_index %>-<%= application %>
   with pidfile <%= unicorn_pid.sub('.pid', ".#{worker_index}.pid") %>
   start program = "/bin/cat /dev/null"
         as uid <%= user %>
-  stop program = "<%= unicorn_remote_script %> kill_worker <%= worker_index %>"
+  stop program = "<%= unicorn_script_path %> kill_worker <%= worker_index %>"
         as uid <%= user %>
   if mem is greater than 300.0 MB for 1 cycles then restart
   if cpu is greater than 80% for 3 cycles then restart
