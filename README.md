@@ -2,7 +2,7 @@
 
 Bunch of capistrano recipes
 
-Documentation: http://elegion.github.com/capistrano-scrip/
+Documentation: http://elegion.github.io/capistrano-scrip/
 GitHub: https://github.com/elegion/capistrano-scrip
 
 ## Installation
