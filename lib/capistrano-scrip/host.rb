@@ -84,7 +84,8 @@ Capistrano::Configuration.instance.load do
       create_user
       ssh_copy_id
 
-      deploy.setup
+      # We use `after` here to ensure that deploy:setup will latest of all `after "host:setup"` tasks
+      after "host:setup", "deploy:setup"
     end
   end
 end
