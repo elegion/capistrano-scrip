@@ -5,6 +5,8 @@ end
 # Performs task on behalf of :root_user
 def host_task(name, options={}, &block)
   task(name, options) do
+    old_use_sudo = fetch(:use_sudo, true)
+    set :use_sudo, true
     unless exists?(:deploy_user)
       set :deploy_user, user
       set :user, root_user
@@ -15,6 +17,7 @@ def host_task(name, options={}, &block)
 
     set :user, deploy_user
     unset :deploy_user
+    set :use_sudo, old_use_sudo
     teardown_connections_to(sessions.keys)
   end
 end
