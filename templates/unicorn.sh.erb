@@ -19,10 +19,11 @@ action="$1"
 
 <% if rvm_ruby_string %>
 export rvm_project_rvmrc=0
+USER_HOME=$(getent passwd <%= user %> | cut -d: -f6)
 # Load RVM into a shell session *as a function*
-if [[ -s "$HOME/.rvm/scripts/rvm" ]] ; then
+if [[ -s "$USER_HOME/.rvm/scripts/rvm" ]] ; then
   # First try to load from a user install
-  source "$HOME/.rvm/scripts/rvm"
+  source "$USER_HOME/.rvm/scripts/rvm"
   rvm use <%= rvm_ruby_string %>
 elif [[ -s "/usr/local/rvm/scripts/rvm" ]] ; then
   # Then try to load from a root install
